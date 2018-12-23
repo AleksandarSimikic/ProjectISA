@@ -4,11 +4,13 @@ exports.create = (req, res) => {
   let car = new Car(
     {
       info: {
-        id: req.body.id,
         brand: req.body.brand,
         model: req.body.model,
         dateOfRes: req.body.dateOfRes,
-        dateOfExp: req.body.dateOfExp
+        dateOfExp: req.body.dateOfExp,
+        typeFuel: req.body.typeFuel,
+        yearOfProd: req.body.yearOfProd,
+        cost: req.body.cost
       }
     });
   car.save((err) => {
@@ -45,11 +47,13 @@ exports.update = (req, res) => {
 
   let updatedCar = {
     info: {
-      id: req.body.id,
+      cost: req.body.cost,
       brand: req.body.brand,
       model: req.body.model,
       dateOfRes: req.body.dateOfRes,
-      dateOfExp: req.body.dateOfExp
+      dateOfExp: req.body.dateOfExp,
+      typeFuel: req.body.typeFuel,
+      yearOfProd: req.body.yearOfProd
     }
   }
 

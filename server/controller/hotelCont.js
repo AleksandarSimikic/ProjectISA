@@ -4,15 +4,15 @@ exports.create = (req, res) => {
   let hotel = new Hotel(
     {
       info: {
-        id: req.body.id,
         name: req.body.name,
         rate: req.body.rate,
         location: req.body.location,
-        //dateOfEntry: req.body.dateOfEntry,
-        //dateOfExit: req.body.dateOfExit,
-        cost: req.body.cost,
+        dateOfEntry: req.body.dateOfEntry,
+        dateOfExit: req.body.dateOfExit,
+        roomsCofig: req.body.roomsCofig,
         //flight: [FlightData]
-        email: req.body.email
+        email: req.body.email,
+        extras: req.body.extras
       }
     }
   );
@@ -50,11 +50,15 @@ exports.update = (req, res) => {
 
   let updatedHotel = {
     info: {
-      id: req.body.id,
       name: req.body.name,
       rate: req.body.rate,
       location: req.body.location,
-      cost: req.body.cost
+      dateOfEntry: req.body.dateOfEntry,
+      dateOfExit: req.body.dateOfExit,
+      roomsCofig: req.body.roomsCofig,
+      //flight: [FlightData]
+      email: req.body.email,
+      extras: req.body.extras
     }
   }
 

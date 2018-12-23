@@ -7,7 +7,12 @@ const SALT_WORK_FACTOR = 10;
  const LOCK_TIME = 20000;
 
 const UserSchema =  new Schema({
-	
+
+		role: {
+			type: String,
+			enum: ['unregistered', 'registered', 'hoteladmin', 'rentadmin', 'airlineadmin', 'headadmin']
+		},
+
 		username: {
 			type: String,
 			required: [true, 'You must enter username!'],
@@ -51,9 +56,10 @@ const UserSchema =  new Schema({
 
 		loginAttempts: { type: Number, required: true, default: 0 },
 
-		lockUntil: { type: Date }
+		lockUntil: { type: Date },
+		
 	
-});
+}, { timestamps: true } );
 
 var reasons = UserSchema.statics.failedLogin = {
 	NOT_FOUND: 0,

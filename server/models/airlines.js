@@ -3,16 +3,17 @@ const validator = require('../utilities/validation')
 
 const AirlineSchema = mongoose.Schema({
 	info: {
-		id: Number,
 		name: {
 			type: String,
 			required: [true, 'Name is required!'],
 			validate: validator.nameValidator
 		},
+		infoAboutDest: {
+			type: String,
+			required: [true, 'Information about airline destinations is requiered!']
+		},
 		rate: {
 			type: Number,
-			min:1,
-			max:5
 		},
 		location: String,
 		promoDesc: {
@@ -22,8 +23,16 @@ const AirlineSchema = mongoose.Schema({
 		},
 		email: {
 			type: String,
-			require: [true, 'E-mail is not entered. Enter valid one (smth@smth.com)'],
 			validate: validator.emailValidator
+		},
+		lugageInfo:{
+			type: String,
+			required: [true, 'Lugage info is required!']
+		},
+		//flights: will be later updated
+		fastResDiscount: {
+			type: String,
+			required: false
 		}
 	}
 })

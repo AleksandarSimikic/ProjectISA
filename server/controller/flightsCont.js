@@ -4,16 +4,19 @@ exports.create = (req, res) => {
   let flight = new Flight(
     {
       flight: {
-        id: req.body.id,
         name: req.body.name,
         fromDest: req.body.fromDest,
         toDest: req.body.toDest,
-        // startDate: req.body.startDate,
-        // endDate: req.body.endDate,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
         cost: req.body.cost,
         flightDur: req.body.flightDur,
         mileage: req.body.mileage,
-        availableSeats: req.body.availableSeats
+        availableSeats: req.body.availableSeats,
+        rate: req.body.rate,
+        numOfMidd: req.body.numOfMidd,
+        middleDest: req.body.middleDest,
+        reservedSeats: req.body.reservedSeats
       }
     }
   );
@@ -51,16 +54,19 @@ exports.update = (req, res) => {
 
   let updatedFlight = {
     flight: {
-      id: req.body.id,
       name: req.body.name,
       fromDest: req.body.fromDest,
       toDest: req.body.toDest,
-      // startDate: req.body.startDate,
-      // endDate: req.body.endDate,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
       cost: req.body.cost,
       flightDur: req.body.flightDur,
       mileage: req.body.mileage,
-      availableSeats: req.body.availableSeats
+      availableSeats: req.body.availableSeats,
+      rate: req.body.rate,
+      numOfMidd: req.body.numOfMidd,
+      middleDest: req.body.middleDest,
+      reservedSeats: req.body.reservedSeats
     }
   }
 

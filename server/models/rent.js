@@ -3,14 +3,18 @@ const validator = require('../utilities/validation')
 
 const RentSchema = mongoose.Schema({
 	info: {
-		id: Number,
 		name: {
 			type: String,
 			required: [true, 'You must enter name!'],
 			validate: validator.nameValidator
 		},
-		location: String,
-		// dateOfExpire: Date,
+		address: String,
+		promoDesc: {
+			type: String,
+			required: [true, 'You must enter promo description!'],
+			validate: validator.descValidator
+		},
+		//cars
 		rate: {
 			type: Number,
 			min:1,
@@ -18,8 +22,10 @@ const RentSchema = mongoose.Schema({
 		},
 		email: {
 			type: String,
-			required: [true, 'You must enter e-mail!'],
 			validate: validator.emailValidator
+		},
+		branchOffice: {
+			type: String
 		}
 	}
 })

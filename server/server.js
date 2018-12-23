@@ -1,5 +1,7 @@
 const express = require('express')
 const logger = require('morgan')
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const hotelRouter = require('./routes/hotelRoutes')
@@ -7,8 +9,10 @@ const airlineRouter = require('./routes/airlinesRoutes')
 const flightRouter = require('./routes/flightRoutes')
 const rentRouter = require('./routes/rentRoutes')
 const carsRouter = require('./routes/carsRouter')
-const airportRouter = require('./routes/airportRoutes')
 const userRouter = require('./routes/userRoutes')
+const roomRouter = require('./routes/roomsRoutes')
+const facebook = require('passport-facebook')
+const router = require('./routes/routes')
 
 
 mongoose.Promise = global.Promise; // uvodimo mongoose.Promise jer ne smijemo da koristimo default mpromise biblioteku u novijim verzijama. (deprecated lib)
@@ -29,15 +33,23 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => console.log("Server started at port: " + port))
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(session({
+	secret: 'secret',
+	saveUninitialized: true,
+	resave: true
+}));
 
 app.use('/hotel', hotelRouter);
 app.use('/airline', airlineRouter);
 app.use('/flight', flightRouter);
 app.use('/rent', rentRouter);
 app.use('/rent/cars', carsRouter);
-app.use('/airport', airportRouter);
 app.use('/user', userRouter)
+app.use('hotel/room', roomRouter)
+app.use('/home',router);
 
 
 

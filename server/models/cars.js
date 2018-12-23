@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 
 const CarsSchema = mongoose.Schema({
   info: {
-    id: Number,
     brand: {
       type: String,
 			required: [true, 'You must select car!'],
@@ -24,7 +23,18 @@ const CarsSchema = mongoose.Schema({
     dateOfExp: {
       type: Date,
       default: Date.now+10000000,
-      required: [true, 'You must enter date of expiry!']
+      required: [true, 'You must enter date of reservation expiry!']
+    },
+    typeFuel: {
+      type: String,
+      required: [true, 'You must specify on what fuel does the car run on!'],
+      enum: ['Diesel', 'Gas', 'Gasoline', 'Unleaded']
+    },
+    yearOfProd: {
+      type: Number,
+      required: [true, 'You must enter cars year of production! (Only cars produced between 1980-2018) '],
+      min: 1980,
+      max: 2018
     }
   }
 })

@@ -6,9 +6,10 @@ exports.create = (req, res) => {
       info: {
         id: req.body.id,
         name: req.body.name,
-        location: req.body.location,
-        //dateOfRes: req.body.dateOfRes,
-        rate: req.body.rate
+        address: req.body.address,
+        promoDesc: req.body.promoDesc,
+        rate: req.body.rate,
+        branchOffice: req.body.branchOffice
       }
     });
   rent.save((err) => {
@@ -47,9 +48,10 @@ exports.update = (req, res) => {
     info: {
       id: req.body.id,
       name: req.body.name,
-      //dateOfRes: req.body.dateOfRes,
       location: req.body.location,
-      rate: req.body.rate
+      rate: req.body.rate,
+      promoDesc: req.body.promoDesc,
+      branchOffice: req.body.branchOffice
     }
   }
 

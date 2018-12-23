@@ -4,12 +4,14 @@ exports.create = (req, res) => {
   let airline = new Airline(
     {
       info: {
-        id: req.body.id,
         name: req.body.name,
         rate: req.body.rate,
         location: req.body.location,
         email: req.body.email,
-        promoDesc: req.body.promoDesc
+        promoDesc: req.body.promoDesc,
+        infoAboutDest: req.body.infoAboutDest,
+        lugageInfo: req.body.lugageInfo,
+        fastResDiscount: req.body.fastResDiscount,
       }
     }
   );
@@ -47,12 +49,14 @@ exports.update = (req, res) => {
 
   let updatedAirline = {
     info: {
-      id: req.body.id,
       name: req.body.name,
       rate: req.body.rate,
       location: req.body.location,
       email: req.body.email,
-      promoDesc: req.body.promoDesc
+      promoDesc: req.body.promoDesc,
+      infoAboutDest: req.body.infoAboutDest,
+      lugageInfo: req.body.lugageInfo,
+      fastResDiscount: req.body.fastResDiscount,
     }
   }
 
