@@ -10,8 +10,8 @@ const FlightSchema = mongoose.Schema({
 		},
 		rate: {
 			type: Number,
-			min:1,
-			max:5
+			default: 0,
+			
 		},
 		fromDest: {
 			type: String,
@@ -20,6 +20,14 @@ const FlightSchema = mongoose.Schema({
 		toDest: {
 			type: String,
 			required: [true, 'You must enter land destination!']
+		},
+		count: {
+			type: Number,
+			default: 1,
+		},
+		rateCount: {
+			type: Number,
+			default: 0
 		},
 		numOfMidd: Number,
 		middleDest: String,
@@ -30,7 +38,7 @@ const FlightSchema = mongoose.Schema({
 		},
 		endDate: {
 			type: Date,
-			default: Date.now + 60*60*24,
+			default: Date.now,
 			required: [true, 'You should enter end date, otherwise it will be default(Today + 1 day) ']
 		},
 		cost: Number,
@@ -51,6 +59,10 @@ const FlightSchema = mongoose.Schema({
 })
 
 const FlightData = mongoose.model('flightdata', FlightSchema)
+
+
+
+
 
 module.exports = {
 	FlightData,

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('../utilities/validation')
 
 const AirlineSchema = mongoose.Schema({
-	info: {
+	info:{
 		name: {
 			type: String,
 			required: [true, 'Name is required!'],

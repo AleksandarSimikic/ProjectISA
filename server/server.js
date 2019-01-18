@@ -10,10 +10,11 @@ const flightRouter = require('./routes/flightRoutes')
 const rentRouter = require('./routes/rentRoutes')
 const carsRouter = require('./routes/carsRouter')
 const userRouter = require('./routes/userRoutes')
-const roomRouter = require('./routes/roomsRoutes')
-const facebook = require('passport-facebook')
-const router = require('./routes/routes')
+const User = require('./models/user').UserModel
+const jwt = require('jsonwebtoken')
+const passport = require('passport')
 
+const router = express.Router();
 
 mongoose.Promise = global.Promise; // uvodimo mongoose.Promise jer ne smijemo da koristimo default mpromise biblioteku u novijim verzijama. (deprecated lib)
 
@@ -36,20 +37,15 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(session({
-	secret: 'secret',
-	saveUninitialized: true,
-	resave: true
-}));
 
 app.use('/hotel', hotelRouter);
 app.use('/airline', airlineRouter);
 app.use('/flight', flightRouter);
 app.use('/rent', rentRouter);
 app.use('/rent/cars', carsRouter);
-app.use('/user', userRouter)
-app.use('hotel/room', roomRouter)
-app.use('/home',router);
+app.use('/', userRouter)
+
+// app.use('hotel/room', roomRouter)
 
 
 

@@ -2,15 +2,22 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const validator = require('../utilities/validation')
 const bcrypt = require('bcrypt')
+// const jwt = require('jsonwebtoken')
+// const passport = require('passport')
+// var config = require('../config/auth');
+
+
+
 const SALT_WORK_FACTOR = 10;
- const MAX_LOGIN_ATTEMPTS = 4;
- const LOCK_TIME = 20000;
+//  const MAX_LOGIN_ATTEMPTS = 4;
+//  const LOCK_TIME = 20000;
 
 const UserSchema =  new Schema({
 
 		role: {
 			type: String,
-			enum: ['unregistered', 'registered', 'hoteladmin', 'rentadmin', 'airlineadmin', 'headadmin']
+			enum: ['unregistered', 'registered', 'airlineadmin'],
+			default: 'unregistered'
 		},
 
 		username: {
@@ -32,12 +39,10 @@ const UserSchema =  new Schema({
 		dateOfBirth: {
 			type: Date,
 			default: Date.now,
-			required: [true, 'You must enter your date of birth!'],
 		},
 		sex: {
 			type: String,
 			enum: ["Male", 'Female'],
-			required: [true, 'You must select sex!']
 		},
 		residency: String,
 		email: {
@@ -46,31 +51,27 @@ const UserSchema =  new Schema({
 			validate: validator.emailValidator,
 			unique: true
 		},
-	
+		
 		password: {
 			type: String,
 			require: true,
 			minlength: 6,
 			maxlength: 20
-		},
-
-		loginAttempts: { type: Number, required: true, default: 0 },
-
-		lockUntil: { type: Date },
+		}
 		
 	
 }, { timestamps: true } );
 
-var reasons = UserSchema.statics.failedLogin = {
-	NOT_FOUND: 0,
-	PASSWORD_INCORRECT: 1,
-	MAX_ATTEMPTS: 2,
-	ACC_BLOCKED: 3
-}
+// var reasons = UserSchema.statics.failedLogin = {
+// 	NOT_FOUND: 0,
+// 	PASSWORD_INCORRECT: 1,
+// 	MAX_ATTEMPTS: 2,
+// 	ACC_BLOCKED: 3
+// }
 
-UserSchema.virtual('isLocked').get(function(){
-	return !!(this.lockUntil && this.lockUntil > Date.now())
-})
+// UserSchema.virtual('isLocked').get(function(){
+// 	return !!(this.lockUntil && this.lockUntil > Date.now())
+// })
 
 
 
@@ -87,90 +88,96 @@ UserSchema.pre('save', function(next) {
         });
     });
 });
-//Posle cemo je implementirati. Trenutno ne treba
- UserSchema.methods.comparePassword = function(candidatePassword, next) {
+UserSchema.methods.comparePassword = function(candidatePassword, next) {
 	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
 			if (err) return next(err);
 			next(null, isMatch);
 	});
 };
 
-UserSchema.methods.incLoginAttempts = function(next) {
-	// if we have a previous lock that has expired, restart at 1
-	if (this.lockUntil < Date.now()) {
-			return this.updateOne({
-					$set: { loginAttempts: 1 },
-					$unset: { lockUntil: 1 }
-			}, next);
-	}
-	// otherwise we're incrementing
-	var updates = { $inc: { loginAttempts: 1 } };
-	// lock the account if we've reached max attempts and it's not locked already
-	if (this.loginAttempts >= MAX_LOGIN_ATTEMPTS && !this.isLocked) {
-			updates.$set = { lockUntil: Date.now() + LOCK_TIME };
+// UserSchema.methods.incLoginAttempts = function(next) {
+// 	// if we have a previous lock that has expired, restart at 1
+// 	if (this.lockUntil < Date.now()) {
+// 			return this.updateOne({
+// 					$set: { loginAttempts: 1 },
+// 					$unset: { lockUntil: 1 }
+// 			}, next);
+// 	}
+// 	// otherwise we're incrementing
+// 	var updates = { $inc: { loginAttempts: 1 } };
+// 	// lock the account if we've reached max attempts and it's not locked already
+// 	if (this.loginAttempts >= MAX_LOGIN_ATTEMPTS && !this.isLocked) {
+// 			updates.$set = { lockUntil: Date.now() + LOCK_TIME };
 			 
-	}
-	return this.updateOne(updates, next);
-};
+// 	}
+// 	return this.updateOne(updates, next);
+// };
 
-// expose enum on the model, and provide an internal convenience reference 
-var reasons = UserSchema.statics.failedLogin = {
-	NOT_FOUND: 0,
-	PASSWORD_INCORRECT: 1,
-	MAX_ATTEMPTS: 2
-};
+// // expose enum on the model, and provide an internal convenience reference 
+// var reasons = UserSchema.statics.failedLogin = {
+// 	NOT_FOUND: 0,
+// 	PASSWORD_INCORRECT: 1,
+// 	MAX_ATTEMPTS: 2
+// };
 
-UserSchema.statics.getAuthenticated = function(username, password, next) {
-	this.findOne({ username }, function(err, user) {
-			if (err) return next(err);
+// UserSchema.methods.validatePassword = function(password) {
+//   const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+//   return this.hash === hash;
+// };
 
-			// make sure the user exists
-			if (!user) {
-					return next(null, null, reasons.NOT_FOUND);
-			}
+// UserSchema.statics.getAuthenticated = function(username, password, next, token) {
+// 	this.findOne({ username }, function(err, user) {
+// 			if (err) return next(err);
 
-			// check if the account is currently locked
-			if (user.isLocked) {
-					// just increment login attempts if account is already locked
-					return user.incLoginAttempts(function(err) {
-						if(err) return next(err)
-						return next(null,null, reasons.ACC_BLOCKED)
-					})
+// 			// make sure the user exists
+// 			if (!user) {
+// 					return next(null, null, reasons.NOT_FOUND);
+// 			}
+
+// 			// check if the account is currently locked
+// 			if (user.isLocked) {
+// 					// just increment login attempts if account is already locked
+// 					return user.incLoginAttempts(function(err) {
+// 						if(err) return next(err)
+// 						return next(null,null, reasons.ACC_BLOCKED)
+// 					})
 					
-			}
+// 			}
 
-			// test for a matching password
-			user.comparePassword(password, function(err, isMatch) {
-					if (err) return next(err);
+// 			// test for a matching password
+// 			user.comparePassword(password, function(err, isMatch) {
+// 					if (err) return next(err);
 
-					// check if the password was a match
+// 					// check if the password was a match
 					
-					if (isMatch) {
-						if(user.isLocked)
-							return next(null, null, ACC_BLOCKED)
-						// reset attempts and lock info
-						var updates = {
-								$set: { loginAttempts: 0 },
-								$unset: { lockUntil: 1 }
-						};
-						return user.update(updates, function(err) {
-								if (err) return next(err);
-								return next(null, user);
-						});
-				}
+// 					if (isMatch) {
+// 						if(user.isLocked)
+// 							return next(null, null, ACC_BLOCKED)
+// 						// reset attempts and lock info
+// 						var token = jwt.sign(user.toJSON(), config.secret, 
+// 							process.env.JWT_KEY, {expiresIn: 100000}
+// 						);
 
-					// password is incorrect, so increment login attempts before responding
-					user.incLoginAttempts(function(err) {
-							if (err) return next(err);
-							if 	(user.loginAttempts==MAX_LOGIN_ATTEMPTS && user.lockUntil) return next(null, null, reasons.MAX_ATTEMPTS);
-							if	(user.loginAttempts>MAX_LOGIN_ATTEMPTS && user.lockUntil) return next(null, null, reasons.ACC_BLOCKED)
-							return next(null, null, reasons.PASSWORD_INCORRECT);
-					});
-			});
-	});
-};
+// 						var updates = {
+// 								$set: { loginAttempts: 0 },
+// 								$unset: { lockUntil: 1 }
+// 						};
+// 						return user.update(updates, function(err) {
+// 								if (err) return next(err);
+// 								return next(null, user, null, token);
+// 						});
+// 				}
 
-
+// 					// password is incorrect, so increment login attempts before responding
+// 					user.incLoginAttempts(function(err) {
+// 							if (err) return next(err);
+// 							if 	(user.loginAttempts==MAX_LOGIN_ATTEMPTS && user.lockUntil) return next(null, null, reasons.MAX_ATTEMPTS);
+// 							if	(user.loginAttempts>MAX_LOGIN_ATTEMPTS && user.lockUntil) return next(null, null, reasons.ACC_BLOCKED)
+// 							return next(null, null, reasons.PASSWORD_INCORRECT);
+// 					});
+// 			});
+// 	});
+// };
 
 const UserModel = mongoose.model('userdata', UserSchema);
 

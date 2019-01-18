@@ -3,7 +3,7 @@ const Airline = require('../models/airlines').AirlineData
 exports.create = (req, res) => {
   let airline = new Airline(
     {
-      info: {
+      info:{
         name: req.body.name,
         rate: req.body.rate,
         location: req.body.location,
@@ -15,6 +15,7 @@ exports.create = (req, res) => {
       }
     }
   );
+  
   airline.save((err) => {
     if(err) {
       return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
