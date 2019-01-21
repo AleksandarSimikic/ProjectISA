@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 // const jwt = require('jsonwebtoken')
 // const passport = require('passport')
 // var config = require('../config/auth');
+const Ticket = require('./ticket').TicketSchema
 
 
 
@@ -54,10 +55,12 @@ const UserSchema =  new Schema({
 		
 		password: {
 			type: String,
-			require: true,
-			minlength: 6,
-			maxlength: 20
-		}
+			require: true
+		},
+		tickets: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Ticket'
+		}]
 		
 	
 }, { timestamps: true } );

@@ -18,13 +18,14 @@ authRoutes.get('/protected', requireAuth, function(req, res) {
     res.send({ content: "Success"})
 })
 
-
 // router.post('/register', user_controller.create)
 router.get('/:id', AuthenticationController.details)
 router.delete('/:id/delete', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.delete)
 router.put('/:id/update', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.update)
 // router.post('/login', user_controller.login)
 router.get('/logout/:id', AuthenticationController.logout)
+router.get('/:id/tickets', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.tickets)
+router.delete('/ticket/:id/delete', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.cancel)
 
 
 module.exports = router;

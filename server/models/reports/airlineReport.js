@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Airline = require('../flights')
+const Flights = require('../flights')
 
 const AirlineReportSchema = mongoose.Schema({
 	info: {
@@ -15,16 +15,12 @@ const AirlineReportSchema = mongoose.Schema({
     	},
 		income: {
 			type: Number,
-    	},
+    },
     // + grafik prodatih karata na denvnom mjesecnom i godisnjem nivou
 	}
 })
 
-const AirlineData = mongoose.model("AirlineData", AirlineReportSchema);
-
-AirlineReportSchema.pre('save', function(next) => {
-
-})
+const AirlineReportData = mongoose.model("AirlineReportData", AirlineReportSchema);
 
 module.exports = {
 	AirlineReportData,

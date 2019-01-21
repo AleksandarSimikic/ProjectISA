@@ -4,11 +4,11 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
-const hotelRouter = require('./routes/hotelRoutes')
+// const hotelRouter = require('./routes/hotelRoutes')
 const airlineRouter = require('./routes/airlinesRoutes')
 const flightRouter = require('./routes/flightRoutes')
-const rentRouter = require('./routes/rentRoutes')
-const carsRouter = require('./routes/carsRouter')
+// const rentRouter = require('./routes/rentRoutes')
+// const carsRouter = require('./routes/carsRouter')
 const userRouter = require('./routes/userRoutes')
 const User = require('./models/user').UserModel
 const jwt = require('jsonwebtoken')
@@ -38,11 +38,11 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 
 
-app.use('/hotel', hotelRouter);
+// app.use('/hotel', hotelRouter);
 app.use('/airline', airlineRouter);
 app.use('/flight', flightRouter);
-app.use('/rent', rentRouter);
-app.use('/rent/cars', carsRouter);
+// app.use('/rent', rentRouter);
+// app.use('/rent/cars', carsRouter);
 app.use('/', userRouter)
 
 // app.use('hotel/room', roomRouter)

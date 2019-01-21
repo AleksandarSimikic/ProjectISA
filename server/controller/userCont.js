@@ -1,6 +1,8 @@
 var jwt = require('jsonwebtoken');  
 var User = require('../models/user')
 var authConfig = require('../config/auth');
+var Ticket = require('../models/ticket')
+const mongoose = require('mongoose')
 
 function generateToken(user){
   return jwt.sign(user, authConfig.secret, {
@@ -120,6 +122,34 @@ exports.details = (req, res) => {
     } 
   });
 };
+
+exports.tickets = (req, res) => {
+  User.UserModel.findById(req.params.id, (err, user) => {
+    if(err) {
+      return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
+    }
+    var tickets = user.tickets
+    console.log(tickets)
+      Ticket.TicketData.find({_id: {$in: tickets}}, (err, ticket) => {
+        if(err) {
+          return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
+        } else {
+          return res.status(400).json(({success: false, msg: 'Your ticket: ' + ticket}, ticket))
+        }
+      })
+  })
+}
+
+exports.cancel = (req, res) => { // cancel ticket
+  Ticket.TicketData.findByIdAndDelete(req.params.id, (err, ticket) => {
+    if(err) {
+      return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
+    } else {
+      return res.status(400).json(({success: false, msg: 'You canceled your ticket. Ticket info: ' + ticket}, ticket))
+    }
+  })
+
+}
 
 exports.delete = (req, res) => {
   User.UserModel.findByIdAndDelete(req.params.id, (err) => {

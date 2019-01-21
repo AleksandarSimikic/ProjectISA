@@ -15,6 +15,18 @@ const AirlineSchema = mongoose.Schema({
 		rate: {
 			type: Number,
 		},
+		avgRate: {
+			type: Number,
+			default: 0
+		},
+		count: {
+			type: Number,
+			default: 1
+		},
+		rateCount: {
+			type: Number,
+			default: 0
+		},
 		location: String,
 		promoDesc: {
 			type: String,
