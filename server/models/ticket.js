@@ -21,10 +21,10 @@ const TicketSchema = mongoose.Schema({
 		flightStartDate: Date,
 		flightEndDate: Date,
 		middleDest: [String],
-		owner: {
-			type: mongoose.Types.ObjectId,
-			ref: 'userdata'
-		}
+		// owner: {
+		// 	type: mongoose.Types.ObjectId,
+		// 	ref: 'userdata'
+		// }
 })
 
 const TicketData = mongoose.model('Ticket', TicketSchema)

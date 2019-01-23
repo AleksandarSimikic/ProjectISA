@@ -45,7 +45,7 @@ const AirlineSchema = mongoose.Schema({
 		fastResDiscount: {
 			type: String,
 			required: false
-		}
+		},
 	}
 })
 

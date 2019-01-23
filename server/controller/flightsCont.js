@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Ticket = require('../models/ticket').TicketData
 const User = require('../models/user').UserModel
 const jwt_decode = require('jwt-decode')
+const Airline = require('../models/airlines').AirlineData
 
 // function return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err})) {
 //   return res.status(400).json(({ success: false, msg: 'Something went wrong' + err}));
@@ -87,6 +88,33 @@ exports.rate = (req, res) => {
 
 // }
 
+// exports.unreserve = (req, res) => { // cancel ticket
+
+//   Flight.findById(req.params.id, (err, flight) => {
+//     if(err) {
+//       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+//     }
+//     flight.flight.availableSeats+=1;
+//     flight.flight.reservedSeats-=1;
+//     var ticketId = flight.tickets._id;
+//     Ticket.findByIdAndDelete(ticketId, (err, ticket) => {
+//       if(err) {
+//         return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+//       }
+//       return res.status(200).json(({ success: true, msg: 'You canceled your ticket. Ticket info: ' + ticket}, ticket))
+//     })
+
+//   })
+  // Ticket.TicketData.findByIdAndDelete(req.params.id, (err, ticket) => {
+  //   if(err) {
+  //     return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
+  //   } else {
+  //     return res.status(400).json(({success: false, msg: 'You canceled your ticket. Ticket info: ' + ticket}, ticket))
+  //   }
+  // })}
+
+
+
 exports.reserve = (req, res) => {
 
   Flight.findById(req.params.id, (err, flight) => {
@@ -105,18 +133,19 @@ exports.reserve = (req, res) => {
       middleDest: [flight.flight.middleDest]
     })
     ticket.save();
+    (flight.tickets).push(ticket._id)
     var authHeader = req.headers.authorization
-      var decoded = jwt_decode(authHeader);
+    var decoded = jwt_decode(authHeader);
     //console.log(ticket);
     if(flight.flight.availableSeats > 0){
       flight.flight.reservedSeats+=1;
       flight.flight.availableSeats-=1;
       
-       User.findByIdAndUpdate(decoded._id, { $addToSet: { tickets: ticket } }, (err, user) => {
+       User.findByIdAndUpdate(decoded._id, { $addToSet: { tickets: ticket._id } }, (err, user) => {
          if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
        }).populate('tickets').exec((err, user)=>{
          if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-				 console.log(user)
+				 //console.log(user)
 			 })
 
       flight.save((err) => {
@@ -128,6 +157,9 @@ exports.reserve = (req, res) => {
     } else {
       return res.status(400).json(({ success: false, msg: 'All seats reserverd!'}));
     }
+  }).populate('tickets').exec((err, flight) => {
+    if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+    console.log(flight)
   })
 }
   

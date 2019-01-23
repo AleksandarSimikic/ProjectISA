@@ -60,10 +60,10 @@ const FlightSchema = mongoose.Schema({
 			max: 250
 		},
 	},
-		ticket: [{ 
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Ticket'
-		}]
+	tickets: [{ 
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Ticket'
+	}]
 	
 
 })

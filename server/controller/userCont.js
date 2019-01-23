@@ -2,6 +2,7 @@ var jwt = require('jsonwebtoken');
 var User = require('../models/user')
 var authConfig = require('../config/auth');
 var Ticket = require('../models/ticket')
+var Flight = require('../models/flights').FlightData
 const mongoose = require('mongoose')
 
 function generateToken(user){
@@ -123,7 +124,7 @@ exports.details = (req, res) => {
   });
 };
 
-exports.tickets = (req, res) => {
+exports.tickets = (req, res) => { //all tickets user has reserved
   User.UserModel.findById(req.params.id, (err, user) => {
     if(err) {
       return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
@@ -140,15 +141,32 @@ exports.tickets = (req, res) => {
   })
 }
 
-exports.cancel = (req, res) => { // cancel ticket
-  Ticket.TicketData.findByIdAndDelete(req.params.id, (err, ticket) => {
-    if(err) {
-      return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
-    } else {
-      return res.status(400).json(({success: false, msg: 'You canceled your ticket. Ticket info: ' + ticket}, ticket))
-    }
-  })
+exports.unreserve = (req, res) => { // cancel ticket
 
+     Ticket.TicketData.findById(req.params.id, (err, ticket) => {
+      if(err) {
+            return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+      }
+      var name = ticket.flightName;
+      console.log(name)
+     })
+
+  // Flight.findById(req.params.id, (err, flight) => {
+  //   if(err) {
+  //     return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+  //   }
+  //   flight.flight.availableSeats+=1;
+  //   flight.flight.reservedSeats-=1;
+  //   console.log(flight)
+  //   var ticketId = flight.tickets._id;
+  //   Ticket.TicketData.findByIdAndDelete(ticketId, (err, ticket) => {
+  //     if(err) {
+  //       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+  //     }
+  //     return res.status(200).json(({ success: true, msg: 'You canceled your ticket. Ticket info: ' + ticket}, ticket))
+  //   })
+
+  // })
 }
 
 exports.delete = (req, res) => {
