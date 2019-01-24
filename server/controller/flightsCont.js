@@ -10,31 +10,74 @@ const Airline = require('../models/airlines').AirlineData
 // }
 
 exports.create = (req, res) => {
-  let flight = new Flight(
-    {
-      flight: {
-        name: req.body.name,
-        fromDest: req.body.fromDest,
-        toDest: req.body.toDest,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        cost: req.body.cost,
-        flightDur: req.body.flightDur,
-        mileage: req.body.mileage,
-        availableSeats: req.body.availableSeats,
-        numOfMidd: req.body.numOfMidd,
-        middleDest: req.body.middleDest,
-      }
-    }
-  );
-  flight.save((err) => {
+  Airline.findById(req.params.id, (err, airline) => {
     if(err) {
-       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-    } else {
-      return res.status(200).json(({ success: true, msg: 'Flight created.' + flight}));
+      return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
     }
-  });
-};
+    //console.log(airline);
+    let flight = new Flight(
+      {
+        flight: {
+          _id: new mongoose.Types.ObjectId,
+          airline: airline.info.name,
+          name: req.body.name,
+          fromDest: req.body.fromDest,
+          toDest: req.body.toDest,
+          startDate: req.body.startDate,
+          endDate: req.body.endDate,
+          cost: req.body.cost,
+          flightDur: req.body.flightDur,
+          mileage: req.body.mileage,
+          availableSeats: req.body.availableSeats,
+          numOfMidd: req.body.numOfMidd,
+          middleDest: req.body.middleDest,
+        }
+      }
+    );
+    flight.save();
+    (airline.info.flights).push(flight.flight._id)
+    airline.save();
+    console.log(flight.flight._id)
+
+    }).populate('info.flights').exec((err) => {
+      if(err) {
+        return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
+      }
+
+      return res.status(200).json(({ success: true, msg: 'Flight created!'}))
+    })
+  };
+
+
+
+
+    
+  // })
+  // let flight = new Flight(
+  //   {
+  //     flight: {
+  //       airline: req.body.airline,
+  //       name: req.body.name,
+  //       fromDest: req.body.fromDest,
+  //       toDest: req.body.toDest,
+  //       startDate: req.body.startDate,
+  //       endDate: req.body.endDate,
+  //       cost: req.body.cost,
+  //       flightDur: req.body.flightDur,
+  //       mileage: req.body.mileage,
+  //       availableSeats: req.body.availableSeats,
+  //       numOfMidd: req.body.numOfMidd,
+  //       middleDest: req.body.middleDest,
+  //     }
+  //   }
+  // );
+  // flight.save((err) => {
+  //   if(err) {
+  //      return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+  //   } else {
+  //     return res.status(200).json(({ success: true, msg: 'Flight created.' + flight}));
+  //   }
+
 
 exports.details = (req, res) => {
   Flight.findById(req.params.id, (err, flight) => {
@@ -123,7 +166,7 @@ exports.reserve = (req, res) => {
     }
     const ticket = new Ticket({
 			_id: new mongoose.Types.ObjectId,
-			flightName: flight.flight.name,
+			flightId: flight._id,
       fromDest: flight.flight.fromDest,
       toDest: flight.flight.toDest,
       dateOfRes: Date.now(),
@@ -145,7 +188,8 @@ exports.reserve = (req, res) => {
          if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
        }).populate('tickets').exec((err, user)=>{
          if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-				 //console.log(user)
+         console.log(user);
+         user.save()
 			 })
 
       flight.save((err) => {

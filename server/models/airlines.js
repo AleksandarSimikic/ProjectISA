@@ -41,7 +41,10 @@ const AirlineSchema = mongoose.Schema({
 			type: String,
 			required: [true, 'Lugage info is required!']
 		},
-		//flights: will be later updated
+		flights: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'flightdata'
+		}],
 		fastResDiscount: {
 			type: String,
 			required: false

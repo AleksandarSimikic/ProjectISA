@@ -4,15 +4,17 @@ const Ticket = require('./ticket')
 
 const FlightSchema = mongoose.Schema({
 	flight: {
+		_id: mongoose.Schema.Types.ObjectId,
+		airline: String,
 		name: {
 			type: String,
 			required: [true, 'Name is requiered!'],
-			validate: validation.nameValidator
+			validate: validation.nameValidator,
+			unique: true
 		},
 		rate: {
 			type: Number,
 			default: 0,
-			
 		},
 		avgRate: {
 			type: Number,
@@ -34,7 +36,10 @@ const FlightSchema = mongoose.Schema({
 			type: Number,
 			default: 0
 		},
-		numOfMidd: Number,
+		numOfMidd: {
+			type: Number,
+			default: 0
+		},
 		middleDest: [String],
 		startDate: {
 			type: Date,
@@ -68,7 +73,15 @@ const FlightSchema = mongoose.Schema({
 
 })
 
+FlightSchema.pre('save', function(next) {
+	this.flight.numOfMidd = (this.flight.middleDest).length
+	next();
+});
+
+
 const FlightData = mongoose.model('flightdata', FlightSchema)
+
+
 
 module.exports = {
 	FlightData,

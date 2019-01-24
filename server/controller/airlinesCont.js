@@ -1,4 +1,5 @@
 const Airline = require('../models/airlines').AirlineData
+const Flight = require('../models/flights')
 
 exports.create = (req, res) => {
   let airline = new Airline(
@@ -63,15 +64,19 @@ exports.rate = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  Airline.findByIdAndDelete(req.params.id, (err) => {
-    if(err) {
+  Airline.findByIdAndDelete(req.params.id)
+  .then((airline) => {
+    var flights = airline.info.flights;
+    console.log(flights);
+    Flight.FlightData.find({ 'flight._id' : { $in: flights } }).deleteMany().exec((err, flights) => {
+      return res.status(200).json(({ success: true, msg: 'Flights deleted!'}))
+    })
+  })
+  .catch((err) => {
       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-    } else {
-      return res.status(200).json(({ success: true, msg: `Airline deleted.`}));
-    }
-    
-  });
-};
+  
+  })
+}
 
 exports.update = (req, res) => {
 

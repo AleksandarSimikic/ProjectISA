@@ -87,32 +87,6 @@ exports.register = function(req, res, next){
   });
 
 }
-// exports.create = (req, res) => {
-//   let user = new User.UserModel(
-//     {
-       
-//         name: req.body.name,
-//         surname: req.body.surname,
-//         username: req.body.username,
-//         dateOfBirth: req.body.dateOfBirth,
-//         sex: req.body.sex,
-//         residency: req.body.residency,
-//         email: req.body.email,
-//         password: req.body.password,
-//         role: req.body.role
-      
-//     });
-//   user.save((err) => {
-//     if(err) {
-//       return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
-//     } else {
-//       return res.status(200).json(({ success: true, msg: 'user created.' + user}));
-//     }
-//   });
-  
-// };
-
-
 
 exports.details = (req, res) => {
   User.UserModel.findById(req.params.id, (err, user) => {
@@ -143,30 +117,24 @@ exports.tickets = (req, res) => { //all tickets user has reserved
 
 exports.unreserve = (req, res) => { // cancel ticket
 
-     Ticket.TicketData.findById(req.params.id, (err, ticket) => {
-      if(err) {
-            return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-      }
-      var name = ticket.flightName;
-      console.log(name)
-     })
-
-  // Flight.findById(req.params.id, (err, flight) => {
-  //   if(err) {
-  //     return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-  //   }
-  //   flight.flight.availableSeats+=1;
-  //   flight.flight.reservedSeats-=1;
-  //   console.log(flight)
-  //   var ticketId = flight.tickets._id;
-  //   Ticket.TicketData.findByIdAndDelete(ticketId, (err, ticket) => {
-  //     if(err) {
-  //       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-  //     }
-  //     return res.status(200).json(({ success: true, msg: 'You canceled your ticket. Ticket info: ' + ticket}, ticket))
-  //   })
-
-  // })
+     Ticket.TicketData.findByIdAndDelete(req.params.id).then((ticket) => {
+      var id = ticket.flightId;
+      console.log(id);      
+      Flight.findByIdAndUpdate(id, { $inc: { 'flight.availableSeats': 1, 'flight.reservedSeats': -1 }, $pull: { tickets: ticket._id } }, {new: true}, (err, flight) => {
+        if(err){
+          return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+        }
+        User.UserModel.findOneAndUpdate({tickets: ticket._id}, { $pull: { tickets: ticket._id } }, {new: true}, (err, user) =>  {
+          console.log(user);
+          if(err){
+             return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+           }
+           return res.status(200).json(({ success: true, msg: 'Ticket deleted! ' + ticket + ' Flight updated: ' + flight}, ticket, flight, user))
+        })
+      })
+    }).catch((err) => {
+      return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+    })
 }
 
 exports.delete = (req, res) => {
