@@ -119,13 +119,13 @@ exports.unreserve = (req, res) => { // cancel ticket
 
      Ticket.TicketData.findByIdAndDelete(req.params.id).then((ticket) => {
       var id = ticket.flightId;
-      console.log(id);      
+     // console.log(id);      
       Flight.findByIdAndUpdate(id, { $inc: { 'flight.availableSeats': 1, 'flight.reservedSeats': -1 }, $pull: { tickets: ticket._id } }, {new: true}, (err, flight) => {
         if(err){
           return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
         }
         User.UserModel.findOneAndUpdate({tickets: ticket._id}, { $pull: { tickets: ticket._id } }, {new: true}, (err, user) =>  {
-          console.log(user);
+         // console.log(user);
           if(err){
              return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
            }
@@ -138,14 +138,17 @@ exports.unreserve = (req, res) => { // cancel ticket
 }
 
 exports.delete = (req, res) => {
-  User.UserModel.findByIdAndDelete(req.params.id, (err) => {
-    if(err) {
-      return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
-    } else {
-      return res.status(200).json(({ success: true, msg: 'user deleted.'}));
-    }
-    
-  });
+  User.UserModel.findByIdAndDelete(req.params.id).then((user) => {
+    var tickets = user.tickets;
+    Ticket.TicketData.find({_id: { $in: tickets } }).deleteMany().exec();
+
+    Flight.updateMany({ tickets: { $in: tickets } }, { $pull: { tickets: { $in: tickets } } }, {multi: true}, (err) => {
+        return res.status(200).json(({ success: true, msg: 'User deleted!' + user}))
+    })
+  })
+  .catch((err) => {
+    return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
+  })
 };
 
 

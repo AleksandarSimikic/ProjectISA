@@ -37,7 +37,7 @@ exports.create = (req, res) => {
     flight.save();
     (airline.info.flights).push(flight.flight._id)
     airline.save();
-    console.log(flight.flight._id)
+    //console.log(flight.flight._id)
 
     }).populate('info.flights').exec((err) => {
       if(err) {
@@ -188,7 +188,7 @@ exports.reserve = (req, res) => {
          if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
        }).populate('tickets').exec((err, user)=>{
          if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-         console.log(user);
+        // console.log(user);
          user.save()
 			 })
 
@@ -203,7 +203,7 @@ exports.reserve = (req, res) => {
     }
   }).populate('tickets').exec((err, flight) => {
     if(err)  return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-    console.log(flight)
+   // console.log(flight)
   })
 }
   
