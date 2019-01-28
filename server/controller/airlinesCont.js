@@ -1,5 +1,7 @@
 const Airline = require('../models/airlines').AirlineData
 const Flight = require('../models/flights')
+const Ticket = require('../models/ticket')
+const User = require('../models/user')
 
 exports.create = (req, res) => {
   let airline = new Airline(
@@ -66,10 +68,23 @@ exports.rate = (req, res) => {
 exports.delete = (req, res) => {
   Airline.findByIdAndDelete(req.params.id)
   .then((airline) => {
-    var flights = airline.info.flights;
-    console.log(flights);
-    Flight.FlightData.find({ 'flight._id' : { $in: flights } }).deleteMany().exec((err, flights) => {
-      return res.status(200).json(({ success: true, msg: 'Flights deleted!'}))
+    var flightsList = airline.info.flights;
+    Flight.FlightData.find({ 'flight._id': { $in: flightsList } }, (err, flights) => {
+      console.log(flights)
+      var ticketsList = new Array();
+      flights.forEach((flight) => {
+        (flight.tickets).forEach((ticket) => {
+          //console.log(ticket)
+          (ticketsList).push(ticket);
+        })
+      })
+     // console.log(tickets);
+      Ticket.TicketData.find({ _id: { $in : ticketsList } }, (err, tickets) => {
+        console.log(tickets);
+        User.UserModel.updateMany({ tickets: { $in : ticketsList } }, { $pull: { tickets: { $in: ticketsList } } }, { multi: true }).exec();
+      }).deleteMany().exec();
+    }).deleteMany().exec(() => {
+      return res.status(200).json(({ success: true, msg: 'Airline deleted!'}, airline))
     })
   })
   .catch((err) => {

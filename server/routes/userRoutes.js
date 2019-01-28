@@ -23,10 +23,9 @@ router.get('/:id', AuthenticationController.details)
 router.delete('/:id/delete', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.delete)
 router.put('/:id/update', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.update)
 // router.post('/login', user_controller.login)
-router.get('/logout/:id', AuthenticationController.logout)
+router.get('/logout/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.logout)
 router.get('/:id/tickets', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.tickets)
 router.delete('/ticket/:id/unreserve', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.unreserve)
-
 
 module.exports = router;
 

@@ -3,6 +3,7 @@ var User = require('../models/user')
 var authConfig = require('../config/auth');
 var Ticket = require('../models/ticket')
 var Flight = require('../models/flights').FlightData
+const mongooseStringQuery = require('mongoose-string-query')
 const mongoose = require('mongoose')
 
 function generateToken(user){
@@ -114,6 +115,14 @@ exports.tickets = (req, res) => { //all tickets user has reserved
       })
   })
 }
+
+// exports.searchUser = (req, res) => {
+//   var searchedUser = {
+//     name: req.query.name,
+//     surname: req.query.surname
+//   }
+//   console.log(searchedUser);
+// }
 
 exports.unreserve = (req, res) => { // cancel ticket
 

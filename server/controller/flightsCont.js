@@ -38,13 +38,12 @@ exports.create = (req, res) => {
     (airline.info.flights).push(flight.flight._id)
     airline.save();
     //console.log(flight.flight._id)
+    return res.status(200).json(({ success: true, msg: 'Flight created!' + flight}))
 
     }).populate('info.flights').exec((err) => {
       if(err) {
         return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
       }
-
-      return res.status(200).json(({ success: true, msg: 'Flight created!'}))
     })
   };
 
@@ -82,7 +81,7 @@ exports.create = (req, res) => {
 exports.details = (req, res) => {
   Flight.findById(req.params.id, (err, flight) => {
     if(err) {
-       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+       return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err }))
     } else {
       return res.status(200).json(({ success: true, msg: 'Flight details displayed.', flight }));
     } 
@@ -90,13 +89,21 @@ exports.details = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Flight.findByIdAndDelete(req.params.id, (err) => {
-    if(err) {
-       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-    } else {
-      return res.status(200).json(({ success: true, msg: 'Flight deleted.'}));
-    }
-    
+  Flight.findByIdAndDelete(req.params.id)
+  .then((flight) => {
+    var tickets = flight.tickets;
+    var flightId = flight.flight._id;
+    console.log(flightId);
+    Ticket.find({ _id: { $in: tickets } }).deleteMany().exec();
+    User.updateMany({ tickets: { $in: tickets } }, { $pull: { tickets: { $in: tickets } } }, { multi: true }, (err, user) => {
+      console.log(user);
+    });
+    Airline.updateOne({ 'info.flights': flightId }, { $pull: { 'info.flights': flightId } }, { multi: true }, (err) => {
+      return res.status(200).json(({ success: true, msg: 'Flight deleted: ' + flight}))
+    }) 
+  })
+  .catch((err) => {
+    return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err }))
   });
 };
 

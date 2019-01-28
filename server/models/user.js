@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const validator = require('../utilities/validation')
 const bcrypt = require('bcrypt')
+const mongooseStringQuery = require('mongoose-string-query')
 // const jwt = require('jsonwebtoken')
 // const passport = require('passport')
 // var config = require('../config/auth');
@@ -75,7 +76,6 @@ const UserSchema =  new Schema({
 // UserSchema.virtual('isLocked').get(function(){
 // 	return !!(this.lockUntil && this.lockUntil > Date.now())
 // })
-
 
 
 UserSchema.pre('save', function(next) {
