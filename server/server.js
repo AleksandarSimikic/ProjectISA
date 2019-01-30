@@ -29,7 +29,7 @@ mongoose.Promise = global.Promise; // uvodimo mongoose.Promise jer ne smijemo da
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log("Server started at port: " + port))
 
@@ -43,7 +43,7 @@ app.use('/airline', airlineRouter);
 app.use('/flight', flightRouter);
 // app.use('/rent', rentRouter);
 // app.use('/rent/cars', carsRouter);
-app.use('/', userRouter)
+app.use('/user', userRouter)
 
 // app.use('hotel/room', roomRouter)
 

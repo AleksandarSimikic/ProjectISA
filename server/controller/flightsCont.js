@@ -9,6 +9,15 @@ const Airline = require('../models/airlines').AirlineData
 //   return res.status(400).json(({ success: false, msg: 'Something went wrong' + err}));
 // }
 
+exports.all = (req, res) => {
+  Flight.find().then((err, flights) => {
+    return res.status(200).json(({ success: true, msg: 'List of all flights: ' + flights }, flights))
+  }).catch((err) => {
+    return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err }))
+  })
+}
+
+
 exports.create = (req, res) => {
   Airline.findById(req.params.id, (err, airline) => {
     if(err) {

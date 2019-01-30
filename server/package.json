@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha ./test/testUser.js",
     "server": "nodemon server.js",
-    "dev": "concurrently  \"npm run server\" "
+    "client": "npm start --prefix ../client",
+    "dev": "concurrently  \"npm run server\" \"npm run client\""
   },
   "author": "Aleksandar Simikic",
   "license": "ISC",

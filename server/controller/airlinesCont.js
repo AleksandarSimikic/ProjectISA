@@ -3,6 +3,15 @@ const Flight = require('../models/flights')
 const Ticket = require('../models/ticket')
 const User = require('../models/user')
 
+exports.allairlines = (req, res) => {
+  Airline.find().then((airlines) => {
+    return res.status(200).json(({ success: true, msg: 'List of all airlines: ' + airlines }, airlines))
+  }).catch((err) => {
+    return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err }))
+  })
+}
+
+
 exports.create = (req, res) => {
   let airline = new Airline(
     {

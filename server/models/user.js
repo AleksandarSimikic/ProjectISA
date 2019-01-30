@@ -15,7 +15,6 @@ const SALT_WORK_FACTOR = 10;
 //  const LOCK_TIME = 20000;
 
 const UserSchema =  new Schema({
-
 		role: {
 			type: String,
 			enum: ['unregistered', 'registered', 'airlineadmin'],

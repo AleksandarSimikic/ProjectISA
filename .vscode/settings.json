@@ -1,0 +1,12 @@
+{
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx",
+    "xml": {
+        "attr_quotes": "single"
+    }
+  },
+  "editor.tabSize": 2,
+  "emmet.triggerExpansionOnTab": true,
+
+"emmet.includeLanguages": { "javascript": "javascriptreact" } 
+}

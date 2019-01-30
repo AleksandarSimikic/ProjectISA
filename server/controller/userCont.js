@@ -89,6 +89,14 @@ exports.register = function(req, res, next){
 
 }
 
+exports.allusers = (req, res) => {
+  User.UserModel.find().select('-password').then((users) => {
+    return res.status(200).json(({ success: true, msg: 'users displayed!'}, users))
+  }).catch(err => {
+    return res.status(200).json(({ success: false, msg: 'Error: ' + err }))
+  })
+}
+
 exports.details = (req, res) => {
   User.UserModel.findById(req.params.id, (err, user) => {
     if(err) {

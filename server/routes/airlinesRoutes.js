@@ -10,10 +10,11 @@ var requireAuth = passport.authenticate('jwt', {session: false});
 var router = express.Router();
 
 
-router.post('/create', requireAuth, AuthenticationController.roleAuthorization(['registered']), airline_controller.create)
+router.post('/create', requireAuth, AuthenticationController.roleAuthorization(['airlineadmin']), airline_controller.create)
 router.get('/:id', airline_controller.details)
-router.delete('/:id/delete', requireAuth, AuthenticationController.roleAuthorization(['registered']), airline_controller.delete)
-router.put('/:id/update', requireAuth, AuthenticationController.roleAuthorization(['registered']),  airline_controller.update)
-router.post('/:id/rate', requireAuth, AuthenticationController.roleAuthorization(['registered']), airline_controller.rate)
+router.delete('/delete/:id', requireAuth, AuthenticationController.roleAuthorization(['airlineadmin']), airline_controller.delete)
+router.put('/update/:id', requireAuth, AuthenticationController.roleAuthorization(['airlineadmin']),  airline_controller.update)
+router.post('/rate/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), airline_controller.rate)
+router.get('/airlines/all', airline_controller.allairlines)
 
 module.exports = router;

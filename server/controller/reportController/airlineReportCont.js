@@ -30,4 +30,5 @@ exports.report = (req, res) => {
     })
   })
   console.log(flightMap)
+  
 }

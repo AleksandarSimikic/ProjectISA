@@ -20,12 +20,13 @@ authRoutes.get('/protected', requireAuth, function(req, res) {
 
 // router.post('/register', user_controller.create)
 router.get('/:id', AuthenticationController.details)
-router.delete('/:id/delete', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.delete)
-router.put('/:id/update', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.update)
+router.delete('/delete/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.delete)
+router.put('/update/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.update)
 // router.post('/login', user_controller.login)
 router.get('/logout/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.logout)
-router.get('/:id/tickets', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.tickets)
-router.delete('/ticket/:id/unreserve', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.unreserve)
+router.get('/tickets/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.tickets)
+router.delete('/ticket/unreserve/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), AuthenticationController.unreserve)
+router.get('/users/all', AuthenticationController.allusers)
 
 module.exports = router;
 
