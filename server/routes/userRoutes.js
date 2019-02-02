@@ -4,7 +4,7 @@ var AuthenticationController = require('../controller/userCont')
 
 require('../config/passport')
 var requireAuth = passport.authenticate('jwt', {session: false}),
-    requireLogin = passport.authenticate('local', {session: false}, { successRedirect: '/', failureRedirect: '/auth/login' });
+    requireLogin = passport.authenticate('local', {session: false});
 // require('../config/passport')(passport)
 
 var router = express.Router();

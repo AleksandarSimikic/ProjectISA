@@ -23,7 +23,7 @@ const emailValidator = [
 const descValidator = [
   validate({
     validator: 'isLength',
-    arguments: [0,200],
+    arguments: [0,500],
     message: 'Description must not exceed {ARGS[1]} characters.'
   })
 ]

@@ -5,4 +5,10 @@ import userReducer from './user.reducer'
 import flightReducer from './flight.reducer'
 import ticketReducer from './ticket.reducer'
 
-export default combineReducers;
+export default combineReducers({
+  airline: airlineReducer,
+  // authRed: authReducer,
+  // userRed: userReducer,
+  // flightRed: flightReducer,
+  // ticketRed: ticketReducer
+});
