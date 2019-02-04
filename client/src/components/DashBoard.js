@@ -10,18 +10,20 @@ class DashBoard extends Component{
   
   componentDidMount() {
     this.props.getAirlines();
-    console.log(this.props)
+   // console.log(this.props)
   }
 
   render() {
-   // console.log(this.props)
+   console.log(this.props)
     const { airlines } = this.props.airline
+    console.log(airlines)
     return(
       <div> 
         <div className="row" style={{marginLeft: "10rem"}}>
             <React.Fragment>
               {airlines.map(airline => (
                 <React.Fragment key={airline._id}>
+                {console.log(airline)}
                 <div className="col-md-4.5">
                   <Card style={{ width: "25.2rem", border: "groove", backgroundColor: "rgba(0,0,0,.075)", marginBottom: "2rem", marginRight: "2rem", marginTop: "1rem" }}>
                     <CardImg style={{ width: "24.8rem", height: "19.8rem" }}  src={logo}/>
@@ -35,7 +37,7 @@ class DashBoard extends Component{
                         <br/>
                         <b>Info about destinations:</b> {airline.info.infoAboutDest}
                       </CardText>
-                      <Button>Go to {airline.info.name}!</Button>
+                      <a className="btn btn-primary" href={"/airline/" + airline._id} role="button">Go to {airline.info.name}</a>
                     </CardBody>
                   </Card>
                   </div>

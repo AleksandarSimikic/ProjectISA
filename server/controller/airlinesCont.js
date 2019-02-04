@@ -38,13 +38,15 @@ exports.create = (req, res) => {
 };
 
 exports.details = (req, res) => {
-  Airline.findById(req.params.id, (err, airline) => {
-    if(err) {
-      return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
-    } else {
-      return res.status(200).json(({ success: true, msg: `Airline details displayed.`, airline }));
-    } 
-  });
+  Airline.findById(req.params.id).then(airline => {
+    var flightsList = airline.info.flights;
+    Flight.FlightData.find({ 'flight._id': { $in: flightsList } }, (err, flights) => { 
+      console.log(flights)
+      return res.status(200).json(({ success: true, msg: `Airline details displayed.`, airline, flights }));
+    })
+  }).catch(err => {
+    return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
+  })
 };
 
 exports.rate = (req, res) => {
