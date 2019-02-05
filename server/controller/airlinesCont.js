@@ -40,14 +40,26 @@ exports.create = (req, res) => {
 exports.details = (req, res) => {
   Airline.findById(req.params.id).then(airline => {
     var flightsList = airline.info.flights;
-    Flight.FlightData.find({ 'flight._id': { $in: flightsList } }, (err, flights) => { 
+    Flight.FlightData.find({ 'flight._id': { $in: flightsList } }, (err, flights) => { //nepotrebno. eksperimentisanje
       console.log(flights)
-      return res.status(200).json(({ success: true, msg: `Airline details displayed.`, airline, flights }));
+      return res.status(200).json(({ success: true, msg: `Airline details displayed.`, airline }));
     })
   }).catch(err => {
     return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
   })
 };
+
+exports.flights = (req, res) => {
+  Airline.findById(req.params.id).then(airline => {
+    var flightsList = airline.info.flights;
+    Flight.FlightData.find({'flight._id': { $in: flightsList } }, (err, flights) => {
+      console.log(flights);
+      return res.status(200).json(({ success: true, msg: 'All flights of airline ' + airline.info.name + 'displayed!' }, flights))
+    })
+  }).catch(err => {
+    return res.status(400).json(({ success: false, msg: "Something went wrong: " + err}))
+  })
+}
 
 exports.rate = (req, res) => {
   var rate = parseInt(req.body.rate);

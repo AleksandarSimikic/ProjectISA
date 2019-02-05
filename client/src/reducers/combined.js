@@ -9,6 +9,6 @@ export default combineReducers({
   airline: airlineReducer,
   // authRed: authReducer,
   // userRed: userReducer,
-  // flightRed: flightReducer,
+  flight: flightReducer,
   // ticketRed: ticketReducer
 });

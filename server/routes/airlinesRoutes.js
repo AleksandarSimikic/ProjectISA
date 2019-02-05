@@ -16,5 +16,6 @@ router.delete('/delete/:id', requireAuth, AuthenticationController.roleAuthoriza
 router.put('/update/:id', requireAuth, AuthenticationController.roleAuthorization(['airlineadmin']),  airline_controller.update)
 router.post('/rate/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), airline_controller.rate)
 router.get('/airlines/all', airline_controller.allairlines)
+router.get('/:id/flights', airline_controller.flights)
 
 module.exports = router;

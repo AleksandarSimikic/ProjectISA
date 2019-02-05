@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button } from 'reactstrap';
+  CardTitle, CardSubtitle, Label } from 'reactstrap';
 import logo from "../102330156-airplane-symbol-vector-airplane-logo-template-aircraft-silhouette-sign-for-transportation-company-tr.jpg";
 import { connect } from 'react-redux';
 import { getAirlines } from '../actions/airline.actions'
@@ -19,6 +19,7 @@ class DashBoard extends Component{
     console.log(airlines)
     return(
       <div> 
+        <h1 className="title" style={{fontFamily: "Times-New-Roman", fontStyle: "noraml", fontWeight:"bold", color: "", fontSize: "50px", marginLeft: "45rem"}}>Airlines</h1>
         <div className="row" style={{marginLeft: "10rem"}}>
             <React.Fragment>
               {airlines.map(airline => (

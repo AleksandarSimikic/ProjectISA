@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
 import { connect } from 'react-redux';
-import { getDetails } from '../actions/airline.actions'
+import { getDetails } from '../../actions/airline.actions'
 import PropTypes from 'prop-types'
-import logo from "../102330156-airplane-symbol-vector-airplane-logo-template-aircraft-silhouette-sign-for-transportation-company-tr.jpg"
+import logo from "../../102330156-airplane-symbol-vector-airplane-logo-template-aircraft-silhouette-sign-for-transportation-company-tr.jpg"
 import Rating from 'react-rating'
 
 class AirlineInfo extends Component{
@@ -19,11 +19,12 @@ class AirlineInfo extends Component{
 
   render(){
     const airlines  = this.props.airline.airlines.info || {}
-    console.log(airlines);
+    const _id = this.props.airline.airlines._id
+    console.log(_id);
 
 
     return(
-      <div className="container-fluid">
+      <div className="container-fluid" style={{width: '-webkit-fill-available', height: "-webkit-fill-available"}} >
       
       <Form >
         <FormGroup>
@@ -44,6 +45,7 @@ class AirlineInfo extends Component{
         <br/>
         <Label for="fast" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Fast reservation supported: {airlines.fastResDiscount}</Label>
         <br/>
+        <a className="btn btn-primary" href={"/airline/" + _id + "/flights"} role="button">Check {airlines.name} available flights</a>
 
 
         </FormGroup>

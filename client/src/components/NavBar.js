@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 
+
 class NavBar extends React.Component {
     state = {
       isOpen: false
@@ -27,7 +28,7 @@ class NavBar extends React.Component {
       <div>
         <Navbar color="dark" dark expand="md">
           <NavbarBrand href="/">FlightBookingService</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+          <NavbarToggler onClick={this.toggle} className="mr-2" />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
@@ -53,6 +54,7 @@ class NavBar extends React.Component {
             </Nav>
           </Collapse>
         </Navbar>
+        
       </div>
     );
   }
