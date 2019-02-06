@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Label } from 'reactstrap';
+  CardTitle, CardSubtitle, Container, Row, Col} from 'reactstrap';
 import logo from "../102330156-airplane-symbol-vector-airplane-logo-template-aircraft-silhouette-sign-for-transportation-company-tr.jpg";
 import { connect } from 'react-redux';
 import { getAirlines } from '../actions/airline.actions'
@@ -18,14 +18,14 @@ class DashBoard extends Component{
     const { airlines } = this.props.airline
     console.log(airlines)
     return(
-      <div> 
-        <h1 className="title" style={{fontFamily: "Times-New-Roman", fontStyle: "noraml", fontWeight:"bold", color: "", fontSize: "50px", marginLeft: "45rem"}}>Airlines</h1>
-        <div className="row" style={{marginLeft: "10rem"}}>
+      <Container style={{maxWidth: "1600px", maxHeight: "900", alignContent: "center"}}> 
+        <h1 className="title" style={{fontFamily: "Times-New-Roman", marginTop: "55px", fontStyle: "normal", fontWeight:"bold", color: "", fontSize: "50px", textAlign: "center"}}>Airlines</h1>
+          <Row style={{marginLeft: "4rem"}}>
             <React.Fragment>
               {airlines.map(airline => (
                 <React.Fragment key={airline._id}>
+                <Col style={{verticalAlign: "middle"}}>
                 {console.log(airline)}
-                <div className="col-md-4.5">
                   <Card style={{ width: "25.2rem", border: "groove", backgroundColor: "rgba(0,0,0,.075)", marginBottom: "2rem", marginRight: "2rem", marginTop: "1rem" }}>
                     <CardImg style={{ width: "24.8rem", height: "19.8rem" }}  src={logo}/>
                     <CardBody>
@@ -41,12 +41,12 @@ class DashBoard extends Component{
                       <a className="btn btn-primary" href={"/airline/" + airline._id} role="button">Go to {airline.info.name}</a>
                     </CardBody>
                   </Card>
-                  </div>
+                  </Col>
                 </React.Fragment>
               ))}
             </React.Fragment>
-        </div>
-      </div>
+            </Row>
+      </Container>
     )
   }
 }

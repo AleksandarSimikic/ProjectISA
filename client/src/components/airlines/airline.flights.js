@@ -4,7 +4,7 @@ import { getAirlineFlights } from '../../actions/flight.actions'
 import PropTypes from 'prop-types'
 import logo from "../../102330156-airplane-symbol-vector-airplane-logo-template-aircraft-silhouette-sign-for-transportation-company-tr.jpg"
 import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button } from 'reactstrap';
+  CardTitle, CardSubtitle, Container, Row, Col } from 'reactstrap';
 
 
 class AirlineFlights extends Component {
@@ -21,13 +21,13 @@ class AirlineFlights extends Component {
 
 
     return(
-      <div> 
-        <div className="row" style={{marginLeft: "10rem"}}>
-            <React.Fragment>
+      <Container style={{maxWidth: "1600px", maxHeight: "900", alignContent: "center", width: '-webkit-fill-available', height: "-webkit-fill-available"}}> 
+        <Row style={{marginLeft: "4rem", marginTop: "3rem"}}>   
+        <React.Fragment>
               {flights.map(flight => (
                 <React.Fragment key={flight._id}>
                 {console.log(flight)}
-                <div className="col-md-4.5">
+                <Col>
                   <Card style={{ width: "25.2rem", border: "groove", backgroundColor: "rgba(0,0,0,.075)", marginBottom: "2rem", marginRight: "2rem", marginTop: "1rem" }}>
                     <CardImg style={{ width: "24.8rem", height: "19.8rem" }}  src={logo}/>
                     <CardBody>
@@ -64,12 +64,12 @@ class AirlineFlights extends Component {
                       <a className="btn btn-primary" href={"/flight/" + flight._id} role="button">Book!</a>
                     </CardBody>
                   </Card>
-                  </div>
+                  </Col>
                 </React.Fragment>
               ))}
             </React.Fragment>
-        </div>
-      </div>
+            </Row>
+        </Container>
     )
     
   }

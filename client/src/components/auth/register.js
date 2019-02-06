@@ -17,8 +17,8 @@ class Register extends Component {
   }
   render() {
     return (
-      <div className="container-fluid" >
-      <Container className="Register"  style={{paddingBottom: "10px", paddingTop: "10px", border: "groove", marginTop: '1rem', backgroundColor: "#d9eae8"}}>
+      <Container style={{width: '-webkit-fill-available', height: "-webkit-fill-available"}}>
+      <Container className="Register"  style={{paddingBottom: "10px", paddingTop: "10px", border: "groove", marginTop: '3.5rem', backgroundColor: "#d9eae8"}}>
         <h2>Registration</h2>
         <Form className="form">
           <Col>
@@ -95,7 +95,7 @@ class Register extends Component {
           <Button onClick={this.handleSubmit}>Submit</Button>
         </Form>
       </Container>
-      </div>
+      </Container>
     );
   }
 }

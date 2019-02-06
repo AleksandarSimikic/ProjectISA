@@ -16,8 +16,8 @@ class App extends Component {
   render() {
     return (
       <Provider store = {store}>
-        <div className="App" style={{backgroundImage: "url(" + img + ")", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed"}}>
-        <NavBar />
+        <div className="App" style={{backgroundImage: "url(" + img + ")", backgroundRepeat: "no-repeat", backgroundAttachment: "fixed", backgroundSize: "cover"}}>
+        <NavBar/>
         <BrowserRouter>
           <Switch>
             <Route exact path = "/" component={DashBoard}/>

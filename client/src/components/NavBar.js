@@ -26,7 +26,7 @@ class NavBar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar color="dark" dark expand="md">
+        <Navbar  fixed ="top" color="dark" dark expand="md">
           <NavbarBrand href="/">FlightBookingService</NavbarBrand>
           <NavbarToggler onClick={this.toggle} className="mr-2" />
           <Collapse isOpen={this.state.isOpen} navbar>

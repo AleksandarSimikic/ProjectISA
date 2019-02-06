@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import { Form, FormGroup, Label, Container} from 'reactstrap';
 import { connect } from 'react-redux';
 import { getDetails } from '../../actions/airline.actions'
 import PropTypes from 'prop-types'
@@ -24,9 +24,8 @@ class AirlineInfo extends Component{
 
 
     return(
-      <div className="container-fluid" style={{width: '-webkit-fill-available', height: "-webkit-fill-available"}} >
-      
-      <Form >
+    <Container style={{maxWidth: "1600px", maxHeight: "900", alignContent: "center", width: '-webkit-fill-available', height: "-webkit-fill-available"}}>       
+      <Form style={{marginTop: "55px", marginLeft: "-5rem"}}>
         <FormGroup>
           <Label for="name" style={{fontWeight: "bolder", fontSize: "70px", fontFamily: "monospaced"}}>{airlines.name} </Label>
         </FormGroup>
@@ -50,7 +49,7 @@ class AirlineInfo extends Component{
 
         </FormGroup>
       </Form>
-      </div>
+      </Container>
     )  
   }   
 }
