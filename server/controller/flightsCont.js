@@ -47,13 +47,9 @@ exports.create = (req, res) => {
     (airline.info.flights).push(flight.flight._id)
     airline.save();
     //console.log(flight.flight._id)
-    return res.status(200).json(({ success: true, msg: 'Flight created!' + flight}))
+    return res.status(200).json(({ success: true, msg: 'Flight created!' + flight}, flight))
 
-    }).populate('info.flights').exec((err) => {
-      if(err) {
-        return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
-      }
-    })
+    }).populate('flights').exec();
   };
 
 

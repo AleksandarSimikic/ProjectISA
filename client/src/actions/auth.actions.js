@@ -2,7 +2,6 @@ import { SET_CURRENT_USER } from "./types"
 import axios from "axios"
 import jwt_decode from 'jwt-decode'
 import setAuthToken from "./setAuthToken"
-import isEmpty from "lodash/isEmpty"
 
 export const authLogin = (username, password) => dispatch => {
   axios.post("/user/auth/login", {username, password})

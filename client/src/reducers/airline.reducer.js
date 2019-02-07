@@ -2,6 +2,7 @@ import { GET_AIRLINES, GET_DETAILS } from '../actions/types'
 
 const initialState = {
   airlines: [],
+  airline: []
 }
 
 export default function(state = initialState, action) {
@@ -14,7 +15,7 @@ export default function(state = initialState, action) {
     case GET_DETAILS:
       return {
         ...state,
-        airlines: action.payload
+        airline: action.payload
       }
     default: return state
   }

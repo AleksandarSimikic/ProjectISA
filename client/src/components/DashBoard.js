@@ -14,7 +14,7 @@ class DashBoard extends Component{
   }
 
   render() {
-   console.log(this.props)
+   //console.log(this.props)
     const { airlines } = this.props.airline
     console.log(airlines)
     return(
@@ -22,10 +22,11 @@ class DashBoard extends Component{
         <h1 className="title" style={{fontFamily: "Times-New-Roman", marginTop: "55px", fontStyle: "normal", fontWeight:"bold", color: "", fontSize: "50px", textAlign: "center"}}>Airlines</h1>
           <Row style={{marginLeft: "4rem"}}>
             <React.Fragment>
+
               {airlines.map(airline => (
                 <React.Fragment key={airline._id}>
                 <Col style={{verticalAlign: "middle"}}>
-                {console.log(airline)}
+                {/* {console.log(airline)} */}
                   <Card style={{ width: "25.2rem", border: "groove", backgroundColor: "rgba(0,0,0,.075)", marginBottom: "2rem", marginRight: "2rem", marginTop: "1rem" }}>
                     <CardImg style={{ width: "24.8rem", height: "19.8rem" }}  src={logo}/>
                     <CardBody>

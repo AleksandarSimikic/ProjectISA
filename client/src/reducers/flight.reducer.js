@@ -1,7 +1,7 @@
-import { GET_AIRLINE_FLIGHTS } from '../actions/types'
+import { GET_AIRLINE_FLIGHTS, CREATE_FLIGHT } from '../actions/types'
 
 const initialState = {
-  flights: []
+  flights: [],
 }
 
 export default function(state = initialState, action) {
@@ -10,6 +10,11 @@ export default function(state = initialState, action) {
       return {
           ...state,
           flights: action.payload
+      }
+    case CREATE_FLIGHT:
+      return {
+        ...state,
+        flights: action.payload
       }
     default: return state
   }

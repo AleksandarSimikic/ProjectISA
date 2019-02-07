@@ -18,33 +18,49 @@ class AirlineInfo extends Component{
   }
 
   render(){
-    const airlines  = this.props.airline.airlines.info || {}
-    const _id = this.props.airline.airlines._id
-    console.log(_id);
+    // console.log(this.props.airline.airline.airline)
+    const airlines  = this.props.airline.airline.airline || {}
+    // console.log(airlines)
+    const _id = airlines._id
+    const airline = airlines.info || {}
+    // console.log(airline);
 
+    const { username } = this.props.auth;
+    console.log(username)
+    const adminLink = 
+    (<div><a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/createFlight"} role="button">Create flight for {airline.name}</a>
+    <a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/update"} role="button">Update {airline.name}</a>
+    <a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/delete"} role="button">Delete {airline.name}</a></div>)
+
+    
+    // const authLink
 
     return(
     <Container style={{maxWidth: "1600px", maxHeight: "900", alignContent: "center", width: '-webkit-fill-available', height: "-webkit-fill-available"}}>       
       <Form style={{marginTop: "55px", marginLeft: "-5rem"}}>
         <FormGroup>
-          <Label for="name" style={{fontWeight: "bolder", fontSize: "70px", fontFamily: "monospaced"}}>{airlines.name} </Label>
+          {console.log(airlines._id)}
+          <Label for="name" style={{fontWeight: "bolder", fontSize: "70px", fontFamily: "monospaced"}}>{airline.name} </Label>
         </FormGroup>
         <FormGroup>
         <br/>
         <Label for="info" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Average Rate: </Label>
-        <Rating style={{}} initialRating={airlines.avgRate} readonly/> ({airlines.avgRate})
+        <Rating style={{}} initialRating={airline.avgRate} readonly/> ({airline.avgRate})
         <br/>
-        <Label for="infoADesc" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Info about destinations: {airlines.infoAboutDest}</Label>
+        <Label for="infoADesc" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Info about destinations: {airline.infoAboutDest}</Label>
         <br/>
-        <Label for="promoDesc" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Promo description: {airlines.promoDesc}</Label>
+        <Label for="promoDesc" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Promo description: {airline.promoDesc}</Label>
         <br/>
-        <Label for="email" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Contact: {airlines.email}</Label>
+        <Label for="email" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Contact: {airline.email}</Label>
         <br/>
-        <Label for="lugage" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Max. lugage: {airlines.lugageInfo}</Label>
+        <Label for="lugage" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Max. lugage: {airline.lugageInfo}</Label>
         <br/>
-        <Label for="fast" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Fast reservation supported: {airlines.fastResDiscount}</Label>
+        <Label for="fast" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Fast reservation supported: {airline.fastResDiscount}</Label>
         <br/>
-        <a className="btn btn-primary" href={"/airline/" + _id + "/flights"} role="button">Check {airlines.name} available flights</a>
+        <a className="btn btn-primary" href={"/airline/" + _id + "/flights"} role="button">Check {airline.name} available flights</a>
+        <br/>
+        <br/>
+        {username.role == 'airlineadmin' ? adminLink : null}
 
 
         </FormGroup>
@@ -61,7 +77,8 @@ AirlineInfo.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  airline: state.airline
+  airline: state.airline,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { getDetails })(AirlineInfo);

@@ -16,7 +16,7 @@ export const getDetails = (id) => dispatch => {
   axios.get('/airline/' + id)
     .then(res => dispatch({
       type: GET_DETAILS,
-      payload: res.data.airline,
+      payload: res.data
     })
   ).catch(err => {
     console.log(err)
