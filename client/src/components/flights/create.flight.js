@@ -42,8 +42,7 @@ class CreateFlight extends Component {
   render() {
     const {name, fromDest, toDest, startDate, endDate, cost, flightDur, mileage, middleDest, availableSeats} = this.state
     return (
-      <Container style={{width: '-webkit-fill-available', height: "-webkit-fill-available"}}>
-      <Container className="Create flight"  style={{paddingBottom: "10px", paddingTop: "10px", border: "groove", marginTop: '3.5rem', backgroundColor: "#d9eae8"}}>
+      <Container className="Create flight"  style={{paddingBottom: "10px",maxWidth: "1600px", maxHeight: "900", alignContent: "center", paddingTop: "10px", border: "groove", marginTop: '3.5rem', backgroundColor: "#d9eae8"}}>
         <h2>Create flight</h2>
         <Form className="form">
           <Col>
@@ -168,7 +167,6 @@ class CreateFlight extends Component {
           </Col>
           <Button onClick={this.handleSubmit}>Submit</Button>
         </Form>
-      </Container>
       </Container>
     )
   }

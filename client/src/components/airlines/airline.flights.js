@@ -21,7 +21,7 @@ class AirlineFlights extends Component {
 
 
     return(
-      <Container style={{maxWidth: "1600px", maxHeight: "900", alignContent: "center", width: '-webkit-fill-available', height: "-webkit-fill-available"}}> 
+      <Container style={{maxWidth: "1600px", maxHeight: "900", alignContent: "center"}}> 
         <Row style={{marginLeft: "4rem", marginTop: "3rem"}}>   
         <React.Fragment>
               {flights.map(flight => (
