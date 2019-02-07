@@ -7,14 +7,16 @@ export const getAirlines = () => dispatch => {
       type: GET_AIRLINES,
       payload: res.data
     })
-  );
+  ).catch(err => {
+    console.log(err)
+  })
 };
 
 export const getDetails = (id) => dispatch => {
   axios.get('/airline/' + id)
     .then(res => dispatch({
       type: GET_DETAILS,
-      payload: res.data.airline
+      payload: res.data.airline,
     })
   ).catch(err => {
     console.log(err)

@@ -1,16 +1,25 @@
-import { AUTH_REGISTER, AUTH_LOGIN } from "../actions/types"
+// authReducer.js
+
+import { SET_CURRENT_USER } from '../actions/types';
+import isEmpty from "lodash/isEmpty"
+
 
 const initialState = {
-  username: '',
-  password: ''
+    isAuthenticated: false,
+    username: '',
+    password: ''
 }
 
-export default function(state = initialState, aciton) {
-  switch(aciton.payload){
-    case AUTH_REGISTER:
-    return state
-    case AUTH_LOGIN:
-    return state
-    default: return state
-  }
+export default function(state = initialState, action ) {
+    switch(action.type) {
+        case SET_CURRENT_USER:
+            return {
+                ...state,
+                isAuthenticated: !isEmpty(action.payload),
+                username: action.payload,
+                password: action.payload
+            }
+        default: 
+            return state;
+    }
 }

@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 function generateToken(user){
   return jwt.sign(user, authConfig.secret, {
-      expiresIn: 10080
+      expiresIn: 10000
   });
 }
 

@@ -7,7 +7,7 @@ import ticketReducer from './ticket.reducer'
 
 export default combineReducers({
   airline: airlineReducer,
-  // authRed: authReducer,
+  auth: authReducer,
   // userRed: userReducer,
   flight: flightReducer,
   // ticketRed: ticketReducer
