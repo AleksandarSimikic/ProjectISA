@@ -18,13 +18,12 @@ import {
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logoutUser } from '../actions/auth.actions';
+import { getAirlines } from '../actions/airline.actions'
 import { withRouter } from 'react-router-dom'
-
-
 
 class NavBar extends React.Component {
     state = {
-      isOpen: false
+      isOpen: false,
     };
   
   toggle = () => {
@@ -82,17 +81,14 @@ class NavBar extends React.Component {
       <div>
         <Navbar  fixed ="top" color="dark" dark expand="md">
           <NavbarBrand href="/">FlightBookingService</NavbarBrand>
-          <Form className="form-inline my-2 my-lg-0">
-            <FormGroup>
-              <Input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-              <Button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</Button>
-            </FormGroup>
-          </Form>
           <NavbarToggler onClick={this.toggle} className="mr-2" />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink href="https://github.com/AleksandarSimikic/ProjectISA">GitHub</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/flights/all">All Flights</NavLink>
               </NavItem>
               {isAuthenticated ? authLinks : guestLinks}
             </Nav>
@@ -110,7 +106,8 @@ NavBar.propTypes = {
 
 
 const mapStateToProps = (state) =>({
-  auth: state.auth
+  auth: state.auth,
+  airlines: state.airline.airlines
 })
 
 export default connect(mapStateToProps, { logoutUser })(withRouter(NavBar));

@@ -9,8 +9,8 @@ const Airline = require('../models/airlines').AirlineData
 //   return res.status(400).json(({ success: false, msg: 'Something went wrong' + err}));
 // }
 
-exports.all = (req, res) => {
-  Flight.find().then((err, flights) => {
+exports.allflights = (req, res) => {
+  Flight.find().then((flights) => {
     return res.status(200).json(({ success: true, msg: 'List of all flights: ' + flights }, flights))
   }).catch((err) => {
     return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err }))
@@ -26,8 +26,9 @@ exports.create = (req, res) => {
     //console.log(airline);
     let flight = new Flight(
       {
+        _id: new mongoose.Types.ObjectId,
+
         flight: {
-          _id: new mongoose.Types.ObjectId,
           airline: airline.info.name,
           name: req.body.name,
           fromDest: req.body.fromDest,
@@ -44,18 +45,14 @@ exports.create = (req, res) => {
       }
     );
     flight.save();
-    (airline.info.flights).push(flight.flight._id)
+    (airline.info.flights).push(flight._id)
     airline.save();
     //console.log(flight.flight._id)
     return res.status(200).json(({ success: true, msg: 'Flight created!' + flight}, flight))
 
-    }).populate('flights').exec();
+    })
   };
 
-
-
-
-    
   // })
   // let flight = new Flight(
   //   {
@@ -97,7 +94,7 @@ exports.delete = (req, res) => {
   Flight.findByIdAndDelete(req.params.id)
   .then((flight) => {
     var tickets = flight.tickets;
-    var flightId = flight.flight._id;
+    var flightId = flight._id;
     console.log(flightId);
     Ticket.find({ _id: { $in: tickets } }).deleteMany().exec();
     User.updateMany({ tickets: { $in: tickets } }, { $pull: { tickets: { $in: tickets } } }, { multi: true }, (err, user) => {
@@ -177,7 +174,8 @@ exports.reserve = (req, res) => {
       return res.status(400).json(({success: false, msg: 'Something went wrong: ' + err}))
     }
     const ticket = new Ticket({
-			_id: new mongoose.Types.ObjectId,
+      _id: new mongoose.Types.ObjectId,
+      flightName: flight.flight.name,
 			flightId: flight._id,
       fromDest: flight.flight.fromDest,
       toDest: flight.flight.toDest,
@@ -233,8 +231,6 @@ exports.update = (req, res) => {
       flightDur: req.body.flightDur,
       mileage: req.body.mileage,
       availableSeats: req.body.availableSeats,
-      rate: req.body.rate,
-      numOfMidd: req.body.numOfMidd,
       middleDest: req.body.middleDest,
       reservedSeats: req.body.reservedSeats
     }

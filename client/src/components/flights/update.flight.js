@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {createFlight} from '../../actions/flight.actions'
+import { updateFlight } from "../../actions/flight.actions"
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
@@ -9,20 +9,20 @@ import {
 } from 'reactstrap';
 
 
-class CreateFlight extends Component {
+class UpdateFlight extends Component {
 
   state = {
       name: '',
       fromDest: '',
       toDest: '',
-      startDate: Date.now()/1000,
-      endDate: Date.now()/1000,
+      startDate: '',
+      endDate: '',
       cost: 0,
       flightDur: 0,
       mileage: 0,
       availableSeats: 0,
       middleDest: [],
-
+      
   }
 
   handleChange = (e) => {
@@ -33,18 +33,17 @@ class CreateFlight extends Component {
   
   handleSubmit = (e) => {
     e.preventDefault();
-    const {id} = this.props.match.params;
-    const flight  = this.state;
+    const { id } = this.props.match.params
+    const flight = this.state
     console.log(flight)
-    this.props.createFlight(id, flight);
-    this.props.history.push('/');
+    this.props.updateFlight(id, flight)
   }  
 
   render() {
     const {name, fromDest, toDest, startDate, endDate, cost, flightDur, mileage, middleDest, availableSeats} = this.state
     return (
-      <Container className="Create flight"  style={{paddingBottom: "10px",maxWidth: "1600px", maxHeight: "900", alignContent: "center", paddingTop: "10px", border: "groove", marginTop: '3.5rem', backgroundColor: "#d9eae8"}}>
-        <h2>Create flight</h2>
+      <Container className="Update flight"  style={{paddingBottom: "10px",maxWidth: "1600px", maxHeight: "900", alignContent: "center", paddingTop: "10px", border: "groove", marginTop: '3.5rem', backgroundColor: "#d9eae8"}}>
+        <h2>Update flight</h2>
         <Form className="form">
           <Col>
             <FormGroup>
@@ -86,7 +85,7 @@ class CreateFlight extends Component {
             <FormGroup>
               <Label>Date of takeoff: </Label>
               <Input
-               type="Date"
+               type="date"
                placeholder="donaldtrump1995"
                name="startDate"
                value={startDate}
@@ -166,7 +165,7 @@ class CreateFlight extends Component {
               />
             </FormGroup>
           </Col>
-          <Button onClick={this.handleSubmit}>Submit</Button>
+          <Button onClick={this.handleSubmit} href="/">Submit</Button>
         </Form>
       </Container>
     )
@@ -174,8 +173,13 @@ class CreateFlight extends Component {
 
 }
 
+UpdateFlight.propTypes = {
+  flight: PropTypes.object.isRequired,
+  updateFlight: PropTypes.func.isRequired
+}
+
 const mapStateToProps = (state) => ({
   flight: state.flight
 })
 
-export default connect(mapStateToProps, { createFlight })(CreateFlight)
+export default connect(mapStateToProps, { updateFlight })(UpdateFlight)

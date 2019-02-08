@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 exports.details = (req, res) => {
   Airline.findById(req.params.id).then(airline => {
     var flightsList = airline.info.flights;
-    Flight.FlightData.find({ 'flight._id': { $in: flightsList } }, (err, flights) => { //nepotrebno. eksperimentisanje
+    Flight.FlightData.find({ '_id': { $in: flightsList } }, (err, flights) => { //nepotrebno. eksperimentisanje
       console.log(flights)
       return res.status(200).json(({ success: true, msg: `Airline details displayed.`, airline }));
     })
@@ -52,7 +52,7 @@ exports.details = (req, res) => {
 exports.flights = (req, res) => {
   Airline.findById(req.params.id).then(airline => {
     var flightsList = airline.info.flights;
-    Flight.FlightData.find({'flight._id': { $in: flightsList } }, (err, flights) => {
+    Flight.FlightData.find({'_id': { $in: flightsList } }, (err, flights) => {
       console.log(flights);
       return res.status(200).json(({ success: true, msg: 'All flights of airline ' + airline.info.name + 'displayed!' }, flights))
     })
@@ -63,6 +63,7 @@ exports.flights = (req, res) => {
 
 exports.rate = (req, res) => {
   var rate = parseInt(req.body.rate);
+  console.log(rate)
   
   
   Airline.findById(req.params.id, (err, airline) => {
@@ -92,7 +93,7 @@ exports.delete = (req, res) => {
   Airline.findByIdAndDelete(req.params.id)
   .then((airline) => {
     var flightsList = airline.info.flights;
-    Flight.FlightData.find({ 'flight._id': { $in: flightsList } }, (err, flights) => {
+    Flight.FlightData.find({ '_id': { $in: flightsList } }, (err, flights) => {
       console.log(flights)
       var ticketsList = new Array();
       flights.forEach((flight) => {
@@ -101,9 +102,9 @@ exports.delete = (req, res) => {
           (ticketsList).push(ticket);
         })
       })
-     // console.log(tickets);
-      Ticket.TicketData.find({ _id: { $in : ticketsList } }, (err, tickets) => {
-        console.log(tickets);
+     // console.log(ticketsList);
+      Ticket.TicketData.find({ '_id': { $in : ticketsList } }, (err, tickets) => {
+        console.log("Kara" + tickets);
         User.UserModel.updateMany({ tickets: { $in : ticketsList } }, { $pull: { tickets: { $in: ticketsList } } }, { multi: true }).exec();
       }).deleteMany().exec();
     }).deleteMany().exec(() => {

@@ -1,9 +1,10 @@
-import { GET_AIRLINES, GET_DETAILS, UPDATE_AIRLINE } from '../actions/types'
+import { GET_AIRLINES, GET_DETAILS, UPDATE_AIRLINE, DELETE_AIRLINE, RATE_AIRLINE } from '../actions/types'
 
 const initialState = {
   airlines: [],
   airline: [],
-  updAirline: []
+  updAirline: [],
+  rate: []
 }
 
 export default function(state = initialState, action) {
@@ -22,6 +23,15 @@ export default function(state = initialState, action) {
       return {
         ...state,
         updAirline: action.payload
+      }
+    case RATE_AIRLINE:
+      return {
+        ...state,
+        rate: action.payload
+      }
+    case DELETE_AIRLINE:
+      return {
+        ...state
       }
     default: return state
   }

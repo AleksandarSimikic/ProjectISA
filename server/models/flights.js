@@ -4,7 +4,6 @@ const Ticket = require('./ticket')
 
 const FlightSchema = mongoose.Schema({
 	flight: {
-		_id: mongoose.Schema.Types.ObjectId,
 		airline: String,
 		name: {
 			type: String,

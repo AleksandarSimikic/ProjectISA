@@ -14,8 +14,8 @@ router.post('/create/:id', requireAuth, AuthenticationController.roleAuthorizati
 router.get('/:id', flight_controller.details)
 router.delete('/delete/:id',requireAuth, AuthenticationController.roleAuthorization(['airlineadmin']), flight_controller.delete)
 router.put('/update/:id', requireAuth, AuthenticationController.roleAuthorization(['airlineadmin']), flight_controller.update)
-router.post('/reserve/:id', requireAuth, AuthenticationController.roleAuthorization(['registered', 'airlineadmin']), flight_controller.reserve)
+router.post('/reserve/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), flight_controller.reserve)
 router.post('/rate/:id', requireAuth, AuthenticationController.roleAuthorization(['registered']), flight_controller.rate)
-router.get('/all', flight_controller.all)
+router.get('/flights/all', flight_controller.allflights)
 
 module.exports = router;

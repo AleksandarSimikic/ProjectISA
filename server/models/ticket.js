@@ -7,6 +7,7 @@ const TicketSchema = mongoose.Schema({
 		fromDest: {
 			type: String
 			},
+		flightName: String,
 		toDest: {
 			type: String
 		},

@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { getAirlineFlights, reserveFlight, deleteFlight } from '../../actions/flight.actions'
-import PropTypes from 'prop-types'
+import { getAllFlights, reserveFlight, deleteFlight } from '../../actions/flight.actions'
 import logo from "../../102330156-airplane-symbol-vector-airplane-logo-template-aircraft-silhouette-sign-for-transportation-company-tr.jpg"
+
+import PropTypes from 'prop-types'
 import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Container, Row, Col, Button, Label } from 'reactstrap';
+  CardTitle, CardSubtitle, Container, Row, Col, Form, FormGroup, Input } from 'reactstrap';
 
 
-class AirlineFlights extends Component {
+class AllFlights extends Component {
+
+  state = {
+    search: ''
+  }
 
   componentDidMount() {
-    const { id } = this.props.match.params;
-    this.props.getAirlineFlights(id);
+    this.props.getAllFlights();
     console.log(this.props); 
   }
 
@@ -24,6 +28,10 @@ class AirlineFlights extends Component {
   handleUpdate = (flight) => {
     
   }
+  handleChange = (e) => {
+    this.setState({search: e.target.value.substr(0, 20)});
+    console.log(this.state.search)
+  }
 
   handleDelete = (id) => {
     console.log(id)
@@ -31,8 +39,12 @@ class AirlineFlights extends Component {
   }
 
   render() {
-    const { flights } = this.props.flight;
-    console.log(this.props)
+    const flights  = this.props.flight.filter(
+      (flight) => { 
+        return flight.flight.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
+      }
+    )
+    console.log(flights)
 
     const {isAuthenticated, username} = this.props.auth;
     console.log(isAuthenticated);
@@ -44,8 +56,14 @@ class AirlineFlights extends Component {
     )
     
     return(
-      <Container style={{maxWidth: "1600px", maxHeight: "900px", alignContent: "center"}}> 
-        <Row style={{marginLeft: "4rem", marginTop: "3rem"}}>   
+      <Container style={{minWidth: "1600px", minHeight: "900px", height:"auto", width:"auto", alignContent: "center"}}> 
+      <h1 className="title" style={{fontFamily: "Times-New-Roman", marginTop: "55px", fontStyle: "normal", fontWeight:"bold", color: "", fontSize: "50px", textAlign: "center"}}>Flights</h1>
+        <Form className="form-inline my-0 my-lg-0">
+            <FormGroup>
+              <Input className="form-control mr-sm-2" style={{marginLeft: "4.9rem"}} data-toggle="tooltip" data-placement="top" title="Not case-sensitive!" type="search" value={this.state.search} placeholder="Search..(by flight name)" onChange={this.handleChange.bind(this)} aria-label="Search"/>
+            </FormGroup>
+          </Form>
+        <Row style={{marginLeft: "4rem", marginTop: "0rem"}}>   
         <React.Fragment>
               {flights.map(flight => (
                 <React.Fragment key={flight._id}>
@@ -99,15 +117,15 @@ class AirlineFlights extends Component {
   }
 }
 
-AirlineFlights.propTypes = {
-  getAirlineFlights: PropTypes.func.isRequired,
-  flight: PropTypes.object.isRequired,
+AllFlights.propTypes = {
+  getAllFlights: PropTypes.func.isRequired,
+  flight: PropTypes.array.isRequired,
   deleteFlight: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  flight: state.flight,
+  flight: state.flight.flights,
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { getAirlineFlights, reserveFlight, deleteFlight })(AirlineFlights);
+export default connect(mapStateToProps, { getAllFlights, reserveFlight, deleteFlight })(AllFlights);

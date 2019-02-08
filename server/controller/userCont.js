@@ -118,7 +118,7 @@ exports.tickets = (req, res) => { //all tickets user has reserved
         if(err) {
           return res.status(400).json(({ success: false, msg: 'Something went wrong: ' + err}))
         } else {
-          return res.status(400).json(({success: false, msg: 'Your ticket: ' + ticket}, ticket))
+          return res.status(200).json(({success: false, msg: 'Your tickets: '}, ticket))
         }
       })
   })

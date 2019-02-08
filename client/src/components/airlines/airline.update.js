@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Form, FormGroup, Label, Container, Input } from 'reactstrap';
+import { Form, FormGroup, Label, Container, Input, Button } from 'reactstrap';
 
 import { getDetails, updateAirline } from "../../actions/airline.actions"
 
@@ -28,16 +28,11 @@ class AirlineUpdate extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const {id} = this.props.match.params;
-   // this.props.updateAirline(id, airline);
+    const airline  = this.state;
+
+    this.props.updateAirline(id, airline);
     this.props.history.push('/');
   }  
-
-  componentWillReceiveProps() {
-    const { id } = this.props.match.params;
-    //console.log(id)
-    this.props.getDetails(id);
-    console.log(this.props)
-  }
 
   render() {
 
@@ -56,6 +51,14 @@ class AirlineUpdate extends Component {
           <Label for="name" style={{fontWeight: "bolder", fontSize: "70px", fontFamily: "monospaced"}}>{} </Label>
         </FormGroup>
         <FormGroup>
+        <br/>
+        <Label for="info" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Airline Headquarters: </Label>
+        <Input 
+          type="text"
+          value={airline.location}
+          name="location"
+          onChange={this.handleChange.bind(this)}
+        />
         <br/>
         <Label for="info" style={{fontWeight: "500", fontSize: "20px", fontFamily: "georgia"}}>Airline Name: </Label>
         <Input 
@@ -105,12 +108,11 @@ class AirlineUpdate extends Component {
           onChange={this.handleChange.bind(this)}
         />
         <br/>
-        <a className="btn btn-primary" role="button">Update</a>
-        <br/>
-        <br/>
-
+        
 
         </FormGroup>
+        <Button className="btn btn-primary" onClick={this.handleSubmit}>Submit</Button>
+
       </Form>
       </Container>
     )
@@ -121,4 +123,4 @@ const mapStateToProps = (state) => ({
   airline: state.airline
 })
 
-export default connect(mapStateToProps, { updateAirline, getDetails })(AirlineUpdate);
+export default connect(mapStateToProps, { updateAirline })(AirlineUpdate);

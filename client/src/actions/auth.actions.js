@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER } from "./types"
+import { SET_CURRENT_USER, AUTH_REGISTER } from "./types"
 import axios from "axios"
 import jwt_decode from 'jwt-decode'
 import setAuthToken from "./setAuthToken"
@@ -15,6 +15,16 @@ export const authLogin = (username, password) => dispatch => {
     console.log(err)
   });
 } 
+
+export const authRegister = (user, history) => dispatch => {
+  axios.post("/user/auth/register", user )
+    .then(res => 
+      history.push('/user/login')
+    )
+    .catch(err => {
+      console.log(err);
+    })
+}
 
 export const setCurrentUser = decoded => {
   return {
