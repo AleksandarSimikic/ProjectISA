@@ -63,7 +63,8 @@ exports.flights = (req, res) => {
 
 exports.rate = (req, res) => {
   var rate = parseInt(req.body.rate);
-  console.log(rate)
+  console.log((typeof(req.body.rate)))
+  console.log(typeof(rate));
   
   
   Airline.findById(req.params.id, (err, airline) => {

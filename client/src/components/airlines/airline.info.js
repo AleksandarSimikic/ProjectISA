@@ -29,9 +29,11 @@ class AirlineInfo extends Component{
   this.setState({...this.state, rate: rating})    
   const rate = this.state.rate;
   console.log(rate)
+  if(rate!=0){
   this.props.rateAirline(id, rate);
   }
-
+  console.log("Rating is 0")
+}
   render(){
     // console.log(this.props.airline.airline.airline)
     const airlines  = this.props.airline.airline.airline || {}
