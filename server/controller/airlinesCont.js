@@ -121,7 +121,7 @@ exports.update = (req, res) => {
   let updatedAirline = {
     info: {
       name: req.body.name,
-      rate: req.body.rate,
+     // rate: req.body.rate,
       location: req.body.location,
       email: req.body.email,
       promoDesc: req.body.promoDesc,

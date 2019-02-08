@@ -37,6 +37,7 @@ class CreateFlight extends Component {
     const flight  = this.state;
     console.log(flight)
     this.props.createFlight(id, flight);
+    this.props.history.push('/');
   }  
 
   render() {

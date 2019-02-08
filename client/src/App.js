@@ -16,6 +16,7 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './actions/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/auth.actions';
 import CreateFlight from "./components/flights/create.flight"
+import AirlineUpdate from "./components/airlines/airline.update"
 
 
 if(localStorage.token) {
@@ -46,6 +47,7 @@ class App extends Component {
             <Route exact path = '/user/login' component={Login}/>
             <Route exact path = "/user/register" component={Register}/>
             <Route exact path = "/airline/:id/createFlight" component={CreateFlight}/>
+            <Route exact path = "/airline/:id/updateAirline" component={AirlineUpdate}/>
           </Switch>
           </div>
         </BrowserRouter>

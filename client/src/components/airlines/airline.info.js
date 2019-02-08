@@ -29,7 +29,7 @@ class AirlineInfo extends Component{
     console.log(username)
     const adminLink = 
     (<div><a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/createFlight"} role="button">Create flight for {airline.name}</a>
-    <a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/update"} role="button">Update {airline.name}</a>
+    <a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/updateAirline"} role="button">Update {airline.name}</a>
     <a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/delete"} role="button">Delete {airline.name}</a></div>)
 
     
@@ -60,7 +60,7 @@ class AirlineInfo extends Component{
         <a className="btn btn-primary" href={"/airline/" + _id + "/flights"} role="button">Check {airline.name} available flights</a>
         <br/>
         <br/>
-        {username.role == 'airlineadmin' ? adminLink : null}
+        {username.role === 'airlineadmin' ? adminLink : null}
 
 
         </FormGroup>
