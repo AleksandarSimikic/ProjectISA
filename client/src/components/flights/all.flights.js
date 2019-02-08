@@ -41,7 +41,7 @@ class AllFlights extends Component {
   render() {
     const flights  = this.props.flight.filter(
       (flight) => { 
-        return flight.flight.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
+        return flight.flight.fromDest.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
       }
     )
     console.log(flights)
@@ -60,7 +60,7 @@ class AllFlights extends Component {
       <h1 className="title" style={{fontFamily: "Times-New-Roman", marginTop: "55px", fontStyle: "normal", fontWeight:"bold", color: "", fontSize: "50px", textAlign: "center"}}>Flights</h1>
         <Form className="form-inline my-0 my-lg-0">
             <FormGroup>
-              <Input className="form-control mr-sm-2" style={{marginLeft: "4.9rem"}} data-toggle="tooltip" data-placement="top" title="Not case-sensitive!" type="search" value={this.state.search} placeholder="Search..(by flight name)" onChange={this.handleChange.bind(this)} aria-label="Search"/>
+              <Input className="form-control mr-sm-2" style={{marginLeft: "4.9rem", width:"20rem"}} data-toggle="tooltip" data-placement="top" title="Not case-sensitive!" type="search" value={this.state.search} placeholder="Search..(by flight takeoff location)" onChange={this.handleChange.bind(this)} aria-label="Search"/>
             </FormGroup>
           </Form>
         <Row style={{marginLeft: "4rem", marginTop: "0rem"}}>   

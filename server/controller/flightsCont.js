@@ -187,6 +187,7 @@ exports.reserve = (req, res) => {
     })
     ticket.save();
     (flight.tickets).push(ticket._id)
+    flight.flight.avgCost += flight.flight.cost
     var authHeader = req.headers.authorization
     var decoded = jwt_decode(authHeader);
     //console.log(ticket);

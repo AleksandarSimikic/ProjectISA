@@ -1,4 +1,4 @@
-import { GET_AIRLINES, GET_DETAILS, UPDATE_AIRLINE, DELETE_AIRLINE, RATE_AIRLINE } from './types'
+import { GET_AIRLINES, GET_DETAILS, UPDATE_AIRLINE, DELETE_AIRLINE, RATE_AIRLINE, REPORT_AIRLINE } from './types'
 import axios from 'axios'
 
 export const getAirlines = () => dispatch => {
@@ -39,6 +39,17 @@ export const rateAirline = (id, rate) => dispatch => {
   axios.post("/airline/rate/" + id, {rate})
     .then(res => dispatch({
       type: RATE_AIRLINE,
+      payload: res.data
+    }))
+    .catch(err => {
+      console.log(err);
+    })
+}
+
+export const reportAirline = (id) => dispatch => {
+  axios.get("/airline/airlines/report/" + id)
+    .then(res => dispatch({
+      type: REPORT_AIRLINE,
       payload: res.data
     }))
     .catch(err => {

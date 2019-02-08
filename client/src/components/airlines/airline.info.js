@@ -24,6 +24,10 @@ class AirlineInfo extends Component{
     this.props.deleteAirline(id);
   }
 
+  handleReport = (e) => {
+    console.log("KARA")
+  }
+
   handleRate = (rating) => {
     const { id } = this.props.match.params;
   this.setState({...this.state, rate: rating})    
@@ -53,9 +57,9 @@ class AirlineInfo extends Component{
     const adminLink = 
     (<div><a className="btn btn-primary" style={{marginRight:"1em"}} href={"/airline/" + _id + "/createFlight"} role="button">Create flight for {airline.name}</a>
     <a className="btn btn-primary"  style={{marginRight:"1em"}} href={"/airline/" + _id + "/updateAirline"} role="button">Update {airline.name}</a>
-    <a className="btn btn-primary" onClick={this.handleDelete} style={{marginRight:"1em"}} href={"/ "} role="button">Delete {airline.name}</a></div>)
-
-    
+    <a className="btn btn-primary" onClick={this.handleDelete} style={{marginRight:"1rem"}} href={"/"} role="button">Delete {airline.name}</a>
+    <a className="btn btn-primary" onClick={this.handleReport} style={{marginRight:"1rem"}} href={"/airlineReport/report/" + _id} role="button">Report of {airline.name}</a>
+    </div>)
     // const authLink
     const rate = this.state.rate
     return(

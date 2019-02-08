@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const AirlineReportSchema = mongoose.Schema({
-	report: [{
+	report: {
 		name: String,
 		avgRate: {
 			type: Number,
@@ -10,9 +10,10 @@ const AirlineReportSchema = mongoose.Schema({
 		},
 		income: {
 			type: Number,
+			default: 0
     },
     // + grafik prodatih karata na denvnom mjesecnom i godisnjem nivou
-	}]
+	}
 })
 
 const AirlineReportData = mongoose.model("AirlineReportData", AirlineReportSchema);

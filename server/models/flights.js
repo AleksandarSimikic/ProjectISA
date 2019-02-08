@@ -11,6 +11,10 @@ const FlightSchema = mongoose.Schema({
 			validate: validation.nameValidator,
 			unique: true
 		},
+		avgCost: {
+			type: Number,
+			default: 0
+		},
 		rate: {
 			type: Number,
 			default: 0,

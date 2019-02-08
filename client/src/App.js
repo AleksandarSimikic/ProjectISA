@@ -19,6 +19,7 @@ import CreateFlight from "./components/flights/create.flight"
 import AirlineUpdate from "./components/airlines/airline.update"
 import UpdateFlight from "./components/flights/update.flight"
 import AllFlights from "./components/flights/all.flights"
+import Report from "./components/airlines/airline.report"
 
 
 if(localStorage.token) {
@@ -53,6 +54,7 @@ class App extends Component {
             <Route exact path = "/user/:id" component={User}/>
             <Route exact path = "/flight/update/:id" component={UpdateFlight}/>
             <Route exact path = "/flights/all" component={AllFlights}/>
+            <Route exact path = "/airlineReport/report/:id" component={Report}/>
           </Switch>
           </div>
         </BrowserRouter>

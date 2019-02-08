@@ -28,7 +28,7 @@ export const deleteUser = (id) => dispatch => {
     .then(res => dispatch({
       type: DELETE_USER,
       payload: res.data
-    }))
+    }, localStorage.removeItem('token')))
     .catch(err => {
       console.log(err);
     })
@@ -39,7 +39,7 @@ export const getUserTickets = (id) => dispatch => {
     .then(res => dispatch({
       type: GET_USER_TICKETS,
       payload: res.data
-    }, localStorage.removeItem('token')))
+    }))
     .catch(err => {
       console.log(err);
     })

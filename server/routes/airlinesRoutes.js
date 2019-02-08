@@ -17,5 +17,6 @@ router.put('/update/:id', requireAuth, AuthenticationController.roleAuthorizatio
 router.post('/rate/:id', requireAuth, AuthenticationController.roleAuthorization(['registered', 'airlineadmin']), airline_controller.rate)
 router.get('/airlines/all', airline_controller.allairlines)
 router.get('/:id/flights', airline_controller.flights)
+router.get('/airlines/report/:id', reportCont.report)
 
 module.exports = router;
